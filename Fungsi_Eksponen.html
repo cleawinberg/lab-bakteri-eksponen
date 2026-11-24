@@ -1,0 +1,2107 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Lab Bakteri Eksponen</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: mint tiled lab wall. Hub = hero + adventure path of five levels + key formula + kamus. Each level = mission card, stats, cartoon scene + graph paper, calculation line, mascot speech, quiz. Modals carry stories, predictions and the dictionary. Single deliberate cartoon look, so no dark variant. */
+:root {
+  --wall: #D8F3E9;
+  --tile: #C3E9DB;
+  --bench: #8ED2C0;
+  --ink: #243352;
+  --paper: #FFFBEE;
+  --pink: #FF6B95;
+  --sun: #FFC247;
+  --sky: #7FC8F2;
+  --grape: #8E86FF;
+  --mint: #5FD0BA;
+  --peach: #FF9770;
+  --good: #B9F0C8;
+  --bad: #FFC1CF;
+  --white: #FFFFFF;
+  --font-display: "Baloo 2", "Trebuchet MS", system-ui, sans-serif;
+  --font-body: "Nunito", system-ui, -apple-system, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  background-color: var(--wall);
+  background-image:
+    linear-gradient(var(--tile) 2px, transparent 2px),
+    linear-gradient(90deg, var(--tile) 2px, transparent 2px);
+  background-size: 64px 64px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.45;
+  padding-block: 20px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+body.noscroll { overflow: hidden; }
+.wrap { max-width: 980px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+.view { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.view.enter { animation: rise .4s cubic-bezier(.2, .9, .3, 1); }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+.top { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.ttl { flex: 1 1 260px; min-width: 0; }
+h1 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(26px, 5.4vw, 42px); line-height: 1; text-wrap: balance; }
+.sub { margin: 6px 0 0; font-weight: 700; text-wrap: pretty; }
+.topr { display: flex; align-items: center; gap: 10px; margin-left: auto; flex-wrap: wrap; }
+.starcount {
+  display: inline-flex; align-items: center; gap: 6px; background: var(--white); border: 3px solid var(--ink);
+  border-radius: 999px; padding: 3px 12px 3px 8px; font-family: var(--font-display); font-weight: 800; font-size: 18px;
+  font-variant-numeric: tabular-nums;
+}
+.star { width: 22px; height: 22px; flex: none; }
+
+.mascot { display: inline-block; width: 46px; height: 46px; flex: none; }
+.mascot svg { width: 100%; height: 100%; display: block; }
+.mascot.logo { width: 56px; height: 56px; }
+.mascot.big { width: 110px; height: 110px; }
+.mascot.bob { animation: bob 2.4s ease-in-out infinite; }
+@keyframes bob { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-6px) rotate(2deg); } }
+
+.lvhead { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.lvtxt { flex: 1 1 240px; min-width: 0; }
+.lvhead h2 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(22px, 4.6vw, 32px); line-height: 1.05; text-wrap: balance; }
+.lvsub { margin: 4px 0 0; font-weight: 700; text-wrap: pretty; }
+.lvstars { display: flex; gap: 2px; }
+.lvact { display: flex; gap: 10px; align-items: center; margin-left: auto; }
+
+/* ---------- hub ---------- */
+.hero {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; align-items: center; background: var(--white);
+  border: 3px solid var(--ink); border-radius: 28px; box-shadow: 0 6px 0 var(--ink); padding: 18px 20px;
+}
+@media (max-width: 520px) { .hero { grid-template-columns: minmax(0, 1fr); justify-items: start; } }
+.hero h2 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(24px, 5vw, 34px); line-height: 1.05; text-wrap: balance; }
+.hero p { margin: 6px 0 0; text-wrap: pretty; }
+.herorow { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center; margin-top: 12px; }
+.rankbar { flex: 1 1 200px; min-width: 0; }
+.rankbar .rk { display: flex; justify-content: space-between; gap: 8px; font-weight: 800; font-size: 14px; }
+.track { height: 16px; border: 3px solid var(--ink); border-radius: 999px; background: var(--paper); overflow: hidden; margin-top: 3px; }
+.track i { display: block; height: 100%; background: repeating-linear-gradient(45deg, var(--sun) 0 10px, #FFD878 10px 20px); border-right: 3px solid var(--ink); transition: width .6s cubic-bezier(.2, .9, .3, 1); }
+.track i[style*="width:0%"] { border-right: 0; }
+
+.levels { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 22px 18px; padding-block: 8px 6px; }
+.lcard {
+  position: relative; display: grid; grid-template-columns: 68px minmax(0, 1fr); grid-template-areas: "icon name" "icon fn" "desc desc" "stars stars";
+  column-gap: 12px; row-gap: 2px; align-items: center; text-decoration: none; color: var(--ink);
+  background: var(--c, var(--sun)); border: 3px solid var(--ink); border-radius: 24px; box-shadow: 0 6px 0 var(--ink);
+  padding: 14px 16px 12px; transition: transform .08s, box-shadow .08s;
+}
+.lcard:hover { transform: translateY(-3px); box-shadow: 0 9px 0 var(--ink); }
+.lcard:active { transform: translateY(5px); box-shadow: 0 1px 0 var(--ink); }
+.lcard:focus-visible { outline: 3px solid var(--grape); outline-offset: 4px; }
+.licon { grid-area: icon; width: 68px; height: 68px; background: var(--white); border: 3px solid var(--ink); border-radius: 18px; padding: 4px; }
+.lname { grid-area: name; align-self: end; font-family: var(--font-display); font-weight: 800; font-size: 22px; line-height: 1.05; }
+.lname small { display: block; font-family: var(--font-body); font-weight: 800; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; opacity: .8; }
+.lfn { grid-area: fn; align-self: start; justify-self: start; background: var(--white); border: 2px solid var(--ink); border-radius: 999px; padding: 1px 10px; font-family: var(--font-display); font-weight: 700; font-size: 15px; margin-top: 4px; }
+.ldesc { grid-area: desc; margin-top: 8px; font-weight: 700; font-size: 16px; text-wrap: pretty; }
+.lstars { grid-area: stars; display: flex; gap: 2px; margin-top: 6px; align-items: center; }
+.lstars .tag { font-family: var(--font-display); font-weight: 800; font-size: 15px; background: var(--white); border: 2px solid var(--ink); border-radius: 999px; padding: 0 10px; }
+.ribbon {
+  position: absolute; bottom: -16px; right: 14px; background: var(--sun); color: var(--ink); border: 3px solid var(--ink); border-radius: 999px;
+  padding: 0 12px; font-family: var(--font-display); font-weight: 800; font-size: 15px; box-shadow: 0 3px 0 var(--ink);
+  animation: wiggle 2s ease-in-out infinite;
+}
+
+.keycard {
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; background: var(--white);
+  border: 3px solid var(--ink); border-radius: 24px; box-shadow: 0 6px 0 var(--ink); padding: 18px;
+}
+@media (min-width: 760px) { .keycard { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); align-items: center; } }
+.keycard h2, .teach h2 { margin: 0 0 4px; font-family: var(--font-display); font-weight: 800; font-size: 26px; line-height: 1.1; }
+.bigf { margin: 0 0 6px; font-family: var(--font-display); font-weight: 800; font-size: clamp(26px, 5.4vw, 38px); line-height: 1.15; }
+.bigf sup { font-size: .6em; line-height: 0; }
+.keylist { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.keylist li { display: flex; gap: 10px; align-items: baseline; }
+.keylist b { flex: none; min-width: 3em; text-align: center; background: var(--c, var(--sun)); border: 2px solid var(--ink); border-radius: 10px; padding: 0 6px; font-family: var(--font-display); font-weight: 800; }
+.stage.mini { aspect-ratio: 5 / 4; box-shadow: 0 5px 0 var(--ink); border-radius: 22px; }
+.teach { background: var(--white); border: 3px solid var(--ink); border-radius: 20px; padding: 6px 16px; }
+.teach summary { cursor: pointer; font-family: var(--font-display); font-weight: 800; font-size: 20px; padding: 8px 0; }
+.teach summary:focus-visible { outline: 3px solid var(--grape); outline-offset: 3px; border-radius: 8px; }
+.teach table { width: 100%; border-collapse: collapse; margin: 6px 0 12px; font-size: 15px; }
+.teach th, .teach td { text-align: left; vertical-align: top; padding: 6px 8px; border-bottom: 2px solid var(--tile); }
+.teach th { font-family: var(--font-display); font-size: 15px; }
+.tablewrap { overflow-x: auto; }
+
+/* ---------- stats / stage ---------- */
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.stat {
+  background: var(--white); border: 3px solid var(--ink); border-radius: 18px;
+  box-shadow: 0 5px 0 var(--ink); padding: 8px 12px 6px; min-width: 0;
+  display: flex; flex-direction: column;
+}
+.lab { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.val { font-family: var(--font-display); font-weight: 800; font-size: clamp(28px, 7vw, 44px); line-height: 1.05; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.val.sm { font-size: clamp(16px, 4.2vw, 30px); padding-top: 4px; overflow-wrap: break-word; }
+.val.xs { font-size: clamp(15px, 3.6vw, 24px); padding-top: 6px; overflow-wrap: break-word; }
+.val sup { font-size: .6em; line-height: 0; }
+
+.calc {
+  margin: 0; background: var(--sun); border: 3px solid var(--ink); border-radius: 18px; box-shadow: 0 4px 0 var(--ink);
+  padding: 8px 16px; font-family: var(--font-display); font-weight: 800; font-size: clamp(18px, 4vw, 26px); line-height: 1.2;
+  text-align: center; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; text-wrap: balance;
+}
+.calc small { display: block; font-family: var(--font-body); font-weight: 800; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; opacity: .8; }
+.calc sup { font-size: .6em; line-height: 0; }
+
+.stage {
+  position: relative; border: 4px solid var(--ink); border-radius: 28px;
+  box-shadow: 0 8px 0 var(--ink); overflow: hidden; background: var(--bench);
+  aspect-ratio: 4 / 3; max-width: 100%; min-width: 0;
+}
+.stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: manipulation; }
+#cv { cursor: pointer; }
+#cvChart { cursor: crosshair; touch-action: pan-y; }
+@media (max-width: 560px) { .stage { aspect-ratio: 1 / 1.1; } }
+.panels { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; }
+.panels .stage { aspect-ratio: 4 / 3; }
+@media (max-width: 560px) { .panels .stage { aspect-ratio: 1 / .94; } }
+@media (min-width: 760px) {
+  .panels.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .panels.two .stage { aspect-ratio: 1 / 1; }
+}
+.chartcap { margin: -6px 0 0; font-weight: 700; font-size: 15px; text-align: center; opacity: .85; }
+
+.controls { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; padding-bottom: 5px; }
+.btn {
+  font-family: var(--font-display); font-weight: 800; font-size: 20px; line-height: 1.1;
+  color: var(--ink); background: var(--bg, var(--white));
+  border: 3px solid var(--ink); border-radius: 18px; padding: 12px 22px; min-height: 48px;
+  box-shadow: 0 5px 0 var(--ink); cursor: pointer;
+  transition: transform .08s, box-shadow .08s;
+}
+.btn:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); }
+.btn:disabled { opacity: .55; cursor: not-allowed; transform: translateY(2px); box-shadow: 0 3px 0 var(--ink); }
+.btn.small { font-size: 15px; padding: 7px 14px; min-height: 40px; border-radius: 14px; box-shadow: 0 4px 0 var(--ink); }
+.btn:focus-visible, #cv:focus-visible, input:focus-visible, .opt:focus-visible, .speak:focus-visible, .seg button:focus-visible { outline: 3px solid var(--grape); outline-offset: 3px; }
+.btn.pulse:not(:disabled) { animation: wiggle 1.6s ease-in-out infinite; }
+@keyframes wiggle { 0%, 70%, 100% { transform: rotate(0); } 78% { transform: rotate(-2.5deg); } 86% { transform: rotate(2.5deg); } 94% { transform: rotate(-1.5deg); } }
+.hint { flex: 1 1 220px; min-width: 0; margin: 0; font-weight: 700; }
+
+.sl {
+  display: flex; align-items: center; gap: 10px; flex: 1 1 250px; min-width: 0; background: var(--white);
+  border: 3px solid var(--ink); border-radius: 16px; padding: 6px 14px; box-shadow: 0 4px 0 var(--ink);
+}
+.sl label { font-family: var(--font-display); font-weight: 800; white-space: nowrap; }
+.sl output { font-family: var(--font-display); font-weight: 800; min-width: 4.2em; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sl input { flex: 1; min-width: 0; height: 32px; accent-color: var(--pink); }
+
+.note {
+  margin: 0; background: var(--white); border: 3px solid var(--ink); border-radius: 16px;
+  padding: 10px 14px; min-width: 0; text-wrap: pretty;
+}
+.speech { display: flex; align-items: center; gap: 12px; }
+.speech p { margin: 0; min-width: 0; flex: 1; font-size: 17px; }
+.speak { flex: none; width: 40px; height: 40px; border-radius: 12px; border: 3px solid var(--ink); background: var(--paper); display: grid; place-items: center; cursor: pointer; box-shadow: 0 3px 0 var(--ink); padding: 0; }
+.speak:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--ink); }
+.speak svg { width: 20px; height: 20px; }
+
+.mission { background: var(--white); border: 3px solid var(--ink); border-radius: 18px; padding: 8px 14px; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+.mission h3 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 20px; }
+.mis { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; min-width: 0; }
+.mis li { display: flex; align-items: center; gap: 6px; border: 2px solid var(--ink); border-radius: 999px; padding: 2px 12px 2px 5px; background: var(--paper); font-weight: 800; font-size: 15px; }
+.mis li.done { background: var(--good); }
+.mis li em { font-style: normal; opacity: .7; font-size: 13px; }
+.mis .ck { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--ink); background: var(--white); display: grid; place-items: center; flex: none; }
+.mis li.done .ck { background: var(--mint); }
+
+.chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.chip {
+  background: var(--c, var(--sun)); border: 2px solid var(--ink); border-radius: 999px;
+  padding: 3px 12px; font-family: var(--font-display); font-weight: 700; font-size: 16px;
+  font-variant-numeric: tabular-nums;
+}
+.chip sup { font-size: .65em; line-height: 0; }
+.chip.arrow { background: transparent; border: 0; padding: 0 2px; font-size: 15px; color: var(--ink); opacity: .85; }
+.chip.pop { animation: pop .35s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes pop { from { transform: scale(.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* ---------- modal ---------- */
+.modal {
+  position: fixed; inset: 0; z-index: 50; background: rgba(36, 51, 82, .6); display: flex; align-items: center; justify-content: center;
+  padding-block: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.mcard {
+  background: var(--paper); border: 4px solid var(--ink); border-radius: 28px; box-shadow: 0 8px 0 var(--ink);
+  width: 100%; max-width: 580px; max-height: 100%; overflow: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px;
+  animation: pop .3s cubic-bezier(.3, 1.4, .5, 1);
+}
+.mcard.wide { max-width: 720px; }
+.mhead { display: flex; align-items: center; gap: 14px; }
+.mhead h3 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 28px; line-height: 1.05; text-wrap: balance; }
+.mk { margin: 0; font-weight: 800; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+.mcard h4 { margin: 4px 0 0; font-family: var(--font-display); font-weight: 800; font-size: 19px; }
+.mstory, .mq { margin: 0; text-wrap: pretty; }
+.mq { font-family: var(--font-display); font-weight: 700; font-size: clamp(20px, 4.4vw, 25px); line-height: 1.25; }
+.msteps { margin: 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 4px; }
+.mwords { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; }
+.mwords div { background: var(--white); border: 2px solid var(--ink); border-radius: 14px; padding: 6px 12px; }
+.mwords dt { font-family: var(--font-display); font-weight: 800; font-size: 18px; }
+.mwords dd { margin: 0; text-wrap: pretty; }
+.mact { display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-end; margin-top: 4px; }
+.mfb { display: flex; flex-direction: column; gap: 8px; }
+.mfb p { margin: 0; text-wrap: pretty; }
+sup { font-size: .65em; line-height: 0; }
+
+/* ---------- kuis ---------- */
+.qcard { background: var(--white); border: 3px solid var(--ink); border-radius: 24px; box-shadow: 0 6px 0 var(--ink); padding: 20px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.qtext { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(21px, 4.4vw, 27px); line-height: 1.2; text-wrap: pretty; }
+.opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.opt {
+  font-family: var(--font-display); font-weight: 700; font-size: 20px; line-height: 1.2; text-align: left; color: var(--ink);
+  background: var(--paper); border: 3px solid var(--ink); border-radius: 16px; padding: 12px 16px; min-height: 52px; cursor: pointer;
+  box-shadow: 0 4px 0 var(--ink); transition: transform .08s, box-shadow .08s;
+}
+.opt:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); }
+.opt:disabled { cursor: default; }
+.opt.good { background: var(--good); }
+.opt.bad { background: var(--bad); }
+.qfb { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.qfb p { margin: 0; text-wrap: pretty; }
+.qhint { margin: 0; background: var(--sun); border: 3px solid var(--ink); border-radius: 14px; padding: 8px 14px; }
+.qbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.qres { align-items: center; text-align: center; }
+.qres .lvstars svg { width: 52px; height: 52px; }
+.qres h3 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 30px; line-height: 1.1; }
+.qres p { margin: 0; text-wrap: pretty; }
+.sumbox { align-self: stretch; text-align: left; background: var(--paper); border: 3px dashed var(--ink); border-radius: 18px; padding: 12px 16px; }
+.sumbox h4 { margin: 0 0 6px; font-family: var(--font-display); font-weight: 800; font-size: 20px; }
+.sumbox ul { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: 4px; }
+.qacts { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+
+#confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 60; }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn.pulse:not(:disabled), .chip.pop, .ribbon, .mascot.bob, .view.enter, .mcard, .eq .eb, .blk { animation: none; }
+  .btn, .lcard, .opt, .track i { transition: none; }
+}
+</style>
+
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<div class="wrap">
+  <header class="top">
+    <span class="mascot logo bob" data-mood="happy" aria-hidden="true"></span>
+    <div class="ttl">
+      <h1>Lab Bakteri Eksponen</h1>
+      <p class="sub" id="sub"></p>
+    </div>
+    <div class="topr">
+      <span class="starcount" id="totalStars" title="Bintang yang sudah dikumpulkan"></span>
+      <button class="btn small" id="btnKamus" type="button" style="--bg: var(--sky)">Kamus Bip</button>
+      <button class="btn small" id="btnPredict" type="button" aria-pressed="true">Tebak dulu: nyala</button>
+      <button class="btn small" id="btnSound" type="button" aria-pressed="true">Suara: nyala</button>
+    </div>
+  </header>
+
+  <!-- HUB -->
+  <main class="view" id="hub">
+    <section class="hero">
+      <span class="mascot big bob" data-mood="happy" aria-hidden="true"></span>
+      <div>
+        <h2 id="heroTitle">Halo, aku Bip!</h2>
+        <p id="heroText"></p>
+        <div class="herorow">
+          <a class="btn" id="heroGo" href="#level-1" style="--bg: var(--pink); text-decoration: none; display: inline-block">Mulai petualangan</a>
+          <div class="rankbar" id="rankbar"></div>
+        </div>
+      </div>
+    </section>
+    <section class="levels" id="levels" aria-label="Jalur petualangan"></section>
+    <section class="keycard" aria-label="Rumus kunci">
+      <div>
+        <h2>Satu rumus untuk semua</h2>
+        <p class="bigf">y = a × b × b × … × b</p>
+        <p style="margin:0 0 10px">Angka b dikalikan sebanyak x kali. Ditulis singkat: <b>y = a · b<sup>x</sup></b>.</p>
+        <ul class="keylist">
+          <li><b style="--c:var(--sun)">a</b><span>jumlah di awal (saat x = 0)</span></li>
+          <li><b style="--c:var(--sky)">b</b><span>pengali: angka yang dikali tiap langkah</span></li>
+          <li><b style="--c:var(--pink)">b &gt; 1</b><span>jumlahnya makin besar: grafik naik</span></li>
+          <li><b style="--c:var(--mint)">b &lt; 1</b><span>jumlahnya makin kecil: grafik turun</span></li>
+        </ul>
+      </div>
+      <div class="stage mini" id="hubStage"><canvas id="cvHub" role="img" aria-label="Grafik y = b pangkat x untuk beberapa nilai b. Semua kurva melewati titik (0, 1)."></canvas></div>
+    </section>
+    <details class="teach">
+      <summary>Panduan Pendamping</summary>
+      <p style="margin:0 0 8px">Media ini mengajarkan fungsi eksponen y = a · b<sup>x</sup> lewat situasi nyata, dengan alur: <b>cerita, tebak, lihat grafik, baca grafik, kuis, rangkuman</b>. Yang dilatih adalah memahami pertumbuhan dan peluruhan serta membaca grafik.</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Level</th><th>Konteks</th><th>Tujuan belajar</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Bakteri membelah</td><td>Pertumbuhan eksponen (b = 2) berbeda dari pertambahan tetap; membaca grafik 2<sup>x</sup>.</td></tr>
+            <tr><td>2</td><td>Pesta jamur</td><td>Peran nilai awal a dan basis b; basis lebih besar berarti grafik lebih curam.</td></tr>
+            <tr><td>3</td><td>Kopi dan kafein</td><td>Peluruhan (0 &lt; b &lt; 1), waktu paruh, grafik yang mendekati nol tetapi tidak menyentuhnya.</td></tr>
+            <tr><td>4</td><td>Celengan ajaib</td><td>Bunga majemuk lawan tunggal; faktor pertumbuhan 1 + r.</td></tr>
+            <tr><td>5</td><td>Pencocok kurva</td><td>Mencari a dan b dari titik-titik grafik: a = y(0), b = y(1) ÷ y(0).</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin:0 0 8px">Fitur bantu: mode &quot;Tebak dulu&quot; (prediksi sebelum melihat hasil, bisa dimatikan), tombol bacakan untuk anak yang belum lancar membaca, kamus istilah, dan petunjuk di setiap soal. Bintang tersimpan di peramban perangkat ini.</p>
+    </details>
+  </main>
+
+  <!-- LEVEL 1 -->
+  <main class="view" id="lvl1" hidden>
+    <div class="lvhead">
+      <button class="btn small back" type="button" data-back>&larr; Peta</button>
+      <div class="lvtxt"><h2>Level 1 &middot; Bakteri Membelah</h2><p class="lvsub">Tiap 1 menit, setiap bakteri membelah jadi dua.</p></div>
+      <div class="lvact"><div class="lvstars" id="lvStars1"></div><button class="btn small" type="button" id="help1" style="--bg: var(--sky)">Bantuan</button></div>
+    </div>
+    <div class="mission" id="mission1"></div>
+    <section class="stats" aria-label="Status bakteri">
+      <div class="stat"><span class="lab">Menit ke-</span><span class="val" id="minute">0</span></div>
+      <div class="stat"><span class="lab">Jumlah bakteri</span><span class="val" id="count">1</span></div>
+      <div class="stat"><span class="lab">Cara menulis</span><span class="val sm" id="formula">2<sup>0</sup> = 1</span></div>
+    </section>
+    <p class="calc" id="calc1" aria-live="polite"></p>
+    <div class="stage" id="stage">
+      <canvas id="cv" role="img" aria-label="Petri dish berisi bakteri lucu yang membelah, lalu menyusun diri jadi grafik 2 pangkat x"></canvas>
+    </div>
+    <div class="controls">
+      <button class="btn" id="btnDivide" type="button" style="--bg: var(--pink)">Belah! +1 menit</button>
+      <button class="btn" id="btnGraph" type="button" style="--bg: var(--sun)" disabled>Susun jadi grafik</button>
+      <button class="btn" id="btnReset" type="button">Mulai ulang</button>
+      <button class="btn" id="btnQuiz" type="button" style="--bg: var(--grape)" disabled>Tantangan kuis</button>
+      <p class="hint" id="hint"></p>
+    </div>
+    <div class="note speech"><span class="mascot" id="mascot1" data-mood="normal" aria-hidden="true"></span><p id="note" aria-live="polite"></p><button class="speak" data-for="note" type="button" aria-label="Bacakan teks ini"></button></div>
+    <ul class="chips" id="chips" aria-label="Pola pembelahan"></ul>
+  </main>
+
+  <!-- LEVEL 2-5 -->
+  <main class="view" id="lvlx" hidden>
+    <div class="lvhead">
+      <button class="btn small back" type="button" data-back>&larr; Peta</button>
+      <div class="lvtxt"><h2 id="lvTitle"></h2><p class="lvsub" id="lvSub"></p></div>
+      <div class="lvact"><div class="lvstars" id="lvStars"></div><button class="btn small" type="button" id="helpX" style="--bg: var(--sky)">Bantuan</button></div>
+    </div>
+    <div class="mission" id="mission"></div>
+    <section class="stats" aria-label="Status">
+      <div class="stat"><span class="lab" id="sl1"></span><span class="val" id="sv1"></span></div>
+      <div class="stat"><span class="lab" id="sl2"></span><span class="val" id="sv2"></span></div>
+      <div class="stat"><span class="lab" id="sl3"></span><span class="val sm" id="sv3"></span></div>
+    </section>
+    <p class="calc" id="calc" aria-live="polite"></p>
+    <div class="panels two" id="panels">
+      <div class="stage" id="sceneStage"><canvas id="cvScene" role="img" aria-label=""></canvas></div>
+      <div class="stage" id="chartStage"><canvas id="cvChart" role="img" aria-label=""></canvas></div>
+    </div>
+    <p class="chartcap" id="chartcap">Sentuh grafik untuk membaca nilainya. Kamu juga bisa melihat ramalan ke depan.</p>
+    <div class="controls" id="lvControls"></div>
+    <div class="note speech"><span class="mascot" id="mascotG" data-mood="normal" aria-hidden="true"></span><p id="gnote" aria-live="polite"></p><button class="speak" data-for="gnote" type="button" aria-label="Bacakan teks ini"></button></div>
+  </main>
+
+  <!-- KUIS -->
+  <main class="view" id="quizView" hidden>
+    <div class="lvhead">
+      <button class="btn small" type="button" id="quizBack">&larr; Kembali</button>
+      <div class="lvtxt"><h2 id="qTitle"></h2><p class="lvsub" id="qProg"></p></div>
+      <span class="mascot" id="qMascot" data-mood="think" aria-hidden="true"></span>
+    </div>
+    <section class="qcard" id="qcard"></section>
+  </main>
+</div>
+
+<div class="modal" id="modal" hidden><div class="mcard" id="mcard" role="dialog" aria-modal="true"></div></div>
+<script>
+/* ===== Bagian A: perangkat bersama (simpan, suara, maskot, modal, konfeti, tebak dulu, misi) ===== */
+(function () {
+  'use strict';
+  var K = window.LabKit = {};
+  var $ = K.$ = function (id) { return document.getElementById(id); };
+  K.TAU = Math.PI * 2;
+  K.INK = '#243352'; K.PAPER = '#FFFBEE'; K.PINK = '#FF4F7E'; K.SUN = '#FFC247'; K.SKY = '#58B8F0'; K.GRAPE = '#8E86FF'; K.MINT = '#2FB59B'; K.BENCH = '#8ED2C0';
+  K.DISPLAY = '"Baloo 2", "Trebuchet MS", system-ui, sans-serif';
+  K.BODY = 'Nunito, system-ui, sans-serif';
+  K.GEN = ['#FF7AA8', '#FF9770', '#FFB84D', '#E8D84A', '#A8DB5A', '#5FD0BA', '#58B8F0', '#8E9BFF'];
+  K.reduce = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  K.clamp = function (v, a, b) { return Math.max(a, Math.min(b, v)); };
+  K.rnd = function (a, b) { return a + Math.random() * (b - a); };
+  K.shuffle = function (a) { for (var i = a.length - 1; i > 0; i--) { var j = (Math.random() * (i + 1)) | 0, t = a[i]; a[i] = a[j]; a[j] = t; } return a; };
+  K.nf = function (v, d) {
+    d = d || 0;
+    var s = Math.abs(v).toFixed(d), p = s.split('.');
+    p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return (v < 0 ? '-' : '') + p.join(',');
+  };
+  K.auto = function (v) { return K.nf(v, 3).replace(/,?0+$/, ''); };
+
+  /* ---------- simpanan (bintang, bantuan yang sudah dilihat, mode tebak) ---------- */
+  var KEY = 'labEksponen.v3', D = { stars: { 1: 0, 2: 0, 3: 0, 4: 0, 6: 0 }, seen: {}, predict: true };
+  try {
+    var raw = localStorage.getItem(KEY), old = localStorage.getItem('labEksponen.bintang.v1'), o = raw ? JSON.parse(raw) : null;
+    if (!o && old) o = { stars: JSON.parse(old) };
+    if (o) {
+      for (var k in D.stars) if (o.stars && typeof o.stars[k] === 'number') D.stars[k] = K.clamp(o.stars[k] | 0, 0, 3);
+      if (o.seen && typeof o.seen === 'object') D.seen = o.seen;
+      if (o.predict === false) D.predict = false;
+    }
+  } catch (e) { /* penyimpanan opsional */ }
+  K.save = { data: D, commit: function () { try { localStorage.setItem(KEY, JSON.stringify(D)); } catch (e) { /* abaikan */ } } };
+  K.total = function () { var t = 0; for (var k in D.stars) t += D.stars[k]; return t; };
+  K.rank = function (t) { return t >= 15 ? 'Ilmuwan Eksponen' : t >= 10 ? 'Profesor Lab' : t >= 5 ? 'Peneliti Muda' : 'Asisten Lab'; };
+
+  /* ---------- suara ---------- */
+  K.sound = {
+    on: true, ac: null,
+    tone: function (f, t0, d, type, v, to) {
+      if (!this.on) return;
+      try {
+        this.ac = this.ac || new (window.AudioContext || window.webkitAudioContext)();
+        var ac = this.ac, t = ac.currentTime + t0, o = ac.createOscillator(), g = ac.createGain();
+        o.type = type || 'sine';
+        o.frequency.setValueAtTime(f, t);
+        if (to) o.frequency.exponentialRampToValueAtTime(to, t + d * 0.8);
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(v || 0.15, t + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+        o.connect(g); g.connect(ac.destination);
+        o.start(t); o.stop(t + d + 0.02);
+      } catch (e) { /* suara opsional */ }
+    },
+    pop: function (f) { this.tone(f, 0, 0.16, 'sine', 0.16, f * 1.8); },
+    ok: function () { this.tone(660, 0, 0.12, 'sine', 0.15); this.tone(880, 0.09, 0.2, 'sine', 0.15); },
+    bad: function () { this.tone(260, 0, 0.22, 'triangle', 0.15, 170); },
+    win: function () { var n = [523, 659, 784, 1047]; for (var i = 0; i < n.length; i++) this.tone(n[i], i * 0.11, 0.3, 'triangle', 0.15); }
+  };
+
+  /* ---------- maskot Bip dengan ekspresi ---------- */
+  K.bipSVG = function (mood) {
+    var ink = '#243352', eyes, mouth, extra = '';
+    if (mood === 'happy') {
+      eyes = '<path d="M15.5 25q3-5 6 0M26.5 25q3-5 6 0" fill="none" stroke="' + ink + '" stroke-width="2.8" stroke-linecap="round"/>';
+      mouth = '<path d="M19 29q5 7.5 10 0z" fill="' + ink + '"/>';
+    } else if (mood === 'think') {
+      eyes = '<circle cx="20" cy="22.5" r="2.7" fill="' + ink + '"/><circle cx="30" cy="22.5" r="2.7" fill="' + ink + '"/><circle cx="20.8" cy="21.6" r=".9" fill="#fff"/><circle cx="30.8" cy="21.6" r=".9" fill="#fff"/>';
+      mouth = '<path d="M21 31h6" fill="none" stroke="' + ink + '" stroke-width="2.6" stroke-linecap="round"/>';
+      extra = '<circle cx="41" cy="9" r="6" fill="#FFC247" stroke="' + ink + '" stroke-width="2.4"/><text x="41" y="12.6" text-anchor="middle" font-family="Baloo 2, Trebuchet MS, sans-serif" font-weight="800" font-size="10" fill="' + ink + '">?</text>';
+    } else if (mood === 'wow') {
+      eyes = '<circle cx="19" cy="23" r="3.4" fill="' + ink + '"/><circle cx="29" cy="23" r="3.4" fill="' + ink + '"/><circle cx="20" cy="21.8" r="1.1" fill="#fff"/><circle cx="30" cy="21.8" r="1.1" fill="#fff"/>';
+      mouth = '<ellipse cx="24" cy="31" rx="2.8" ry="3.3" fill="' + ink + '"/>';
+      extra = '<path d="M7 7l3 3M41 7l-3 3M24 3v4" stroke="' + ink + '" stroke-width="2.4" stroke-linecap="round"/>';
+    } else if (mood === 'sad') {
+      eyes = '<circle cx="19" cy="23" r="2.6" fill="' + ink + '"/><circle cx="29" cy="23" r="2.6" fill="' + ink + '"/>';
+      mouth = '<path d="M20 32q4-4.5 8 0" fill="none" stroke="' + ink + '" stroke-width="2.6" stroke-linecap="round"/>';
+      extra = '<path d="M33 27q1.8 3 0 4.6q-1.8-1.6 0-4.6z" fill="#7FC8F2" stroke="' + ink + '" stroke-width="1.2"/>';
+    } else {
+      eyes = '<circle cx="19" cy="23" r="2.6" fill="' + ink + '"/><circle cx="29" cy="23" r="2.6" fill="' + ink + '"/><circle cx="19.8" cy="22.1" r=".8" fill="#fff"/><circle cx="29.8" cy="22.1" r=".8" fill="#fff"/>';
+      mouth = '<path d="M20 29q4 4 8 0" fill="none" stroke="' + ink + '" stroke-width="2.5" stroke-linecap="round"/>';
+    }
+    return '<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="4" y="12" width="40" height="24" rx="12" fill="#FF7AA8" stroke="' + ink + '" stroke-width="3"/>' +
+      '<ellipse cx="16" cy="18.5" rx="5" ry="2.2" fill="#fff" opacity=".5"/>' +
+      '<ellipse cx="13.5" cy="28.5" rx="2.6" ry="1.6" fill="#FF4F7E" opacity=".35"/><ellipse cx="34.5" cy="28.5" rx="2.6" ry="1.6" fill="#FF4F7E" opacity=".35"/>' +
+      eyes + mouth + extra + '</svg>';
+  };
+  K.mascot = function (el, mood) {
+    if (typeof el === 'string') el = $(el);
+    if (!el) return;
+    el.setAttribute('data-mood', mood || 'normal');
+    el.innerHTML = K.bipSVG(mood || 'normal');
+  };
+  K.renderMascots = function (root) {
+    var list = (root || document).querySelectorAll('.mascot[data-mood]');
+    for (var i = 0; i < list.length; i++) list[i].innerHTML = K.bipSVG(list[i].getAttribute('data-mood'));
+  };
+
+  /* ---------- bintang, misi, bacakan ---------- */
+  K.star = function (on) {
+    return '<svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6.1 6.7.8-4.9 4.6 1.3 6.6L12 17.4 6 20.7l1.3-6.6-4.9-4.6 6.7-.8z" fill="' + (on ? '#FFC247' : '#FFFFFF') + '" stroke="#243352" stroke-width="2" stroke-linejoin="round"/></svg>';
+  };
+  K.stars = function (n) { var s = ''; for (var i = 0; i < 3; i++) s += K.star(i < n); return s; };
+  var CHECK = '<svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M2 6.5l3 3 5-6" fill="none" stroke="#243352" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  K.renderMission = function (el, items) {
+    if (!el) return;
+    el.innerHTML = '<h3>Misi</h3><ul class="mis">' + items.map(function (it) {
+      return '<li class="' + (it.done ? 'done' : '') + '"><span class="ck">' + (it.done ? CHECK : '') + '</span>' + it.t + (it.bonus ? ' <em>(bonus)</em>' : '') + '</li>';
+    }).join('') + '</ul>';
+  };
+  K.canSpeak = ('speechSynthesis' in window) && ('SpeechSynthesisUtterance' in window);
+  K.speak = function (t) {
+    try { speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance(t); u.lang = 'id-ID'; u.rate = 0.92; speechSynthesis.speak(u); } catch (e) { /* abaikan */ }
+  };
+  var SPK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z" fill="#243352"/><path d="M16 8.5q2.5 3.5 0 7M18.5 6q4.5 6 0 12" fill="none" stroke="#243352" stroke-width="2" stroke-linecap="round"/></svg>';
+  (function () {
+    var list = document.querySelectorAll('.speak');
+    for (var i = 0; i < list.length; i++) {
+      (function (b) {
+        if (!K.canSpeak) { b.hidden = true; return; }
+        b.innerHTML = SPK;
+        b.addEventListener('click', function () { K.speak($(b.getAttribute('data-for')).textContent); });
+      })(list[i]);
+    }
+  })();
+
+  /* ---------- modal ---------- */
+  var modal = $('modal'), mcard = $('mcard'), lastFocus = null, onClose = null;
+  K.openModal = function (html, opts) {
+    opts = opts || {};
+    mcard.className = 'mcard' + (opts.cls ? ' ' + opts.cls : '');
+    mcard.innerHTML = html;
+    K.renderMascots(mcard);
+    modal.hidden = false; modal.setAttribute('data-closable', opts.closable === false ? '0' : '1');
+    lastFocus = document.activeElement; onClose = opts.onClose || null;
+    document.body.classList.add('noscroll');
+    mcard.scrollTop = 0;
+    var f = mcard.querySelector('[data-autofocus]') || mcard.querySelector('button');
+    if (f) f.focus();
+  };
+  K.closeModal = function () {
+    modal.hidden = true; mcard.innerHTML = '';
+    document.body.classList.remove('noscroll');
+    if (lastFocus && lastFocus.focus) { try { lastFocus.focus(); } catch (e) { /* abaikan */ } }
+    var cb = onClose; onClose = null;
+    if (cb) cb();
+  };
+  modal.addEventListener('click', function (e) { if (e.target === modal && modal.getAttribute('data-closable') !== '0') K.closeModal(); });
+  document.addEventListener('keydown', function (e) {
+    if (modal.hidden) return;
+    if (e.key === 'Escape' && modal.getAttribute('data-closable') !== '0') { K.closeModal(); return; }
+    if (e.key === 'Tab') {
+      var f = mcard.querySelectorAll('button:not([disabled])');
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+
+  /* ---------- konfeti ---------- */
+  var cf = [], cfOn = false;
+  K.confetti = function (n) {
+    if (K.reduce) return;
+    var cv = $('confetti'), ctx = cv.getContext('2d'), dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = Math.round(window.innerWidth * dpr); cv.height = Math.round(window.innerHeight * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var cols = ['#FF7AA8', '#FFC247', '#5FD0BA', '#8E86FF', '#7FC8F2', '#FF9770'];
+    for (var i = 0; i < (n || 120); i++) cf.push({ x: window.innerWidth * K.rnd(.2, .8), y: window.innerHeight * .35, vx: K.rnd(-7, 7), vy: K.rnd(-13, -3), r: K.rnd(0, 6), vr: K.rnd(-.3, .3), w: K.rnd(7, 13), h: K.rnd(4, 8), c: cols[(Math.random() * cols.length) | 0], life: K.rnd(90, 150) });
+    if (cfOn) return; cfOn = true;
+    (function step() {
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      cf = cf.filter(function (p) { return p.life > 0 && p.y < window.innerHeight + 30; });
+      cf.forEach(function (p) {
+        p.vy += .45; p.x += p.vx; p.y += p.vy; p.vx *= .985; p.r += p.vr; p.life--;
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.globalAlpha = Math.min(1, p.life / 30);
+        ctx.fillStyle = p.c; ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); ctx.restore();
+      });
+      if (cf.length) requestAnimationFrame(step); else { cfOn = false; ctx.clearRect(0, 0, window.innerWidth, window.innerHeight); }
+    })();
+  };
+
+  /* ---------- Tebak dulu ---------- */
+  K.mkOpts = function (correct, ds, fmt) {
+    var seen = {}, out = [];
+    function add(v, ok) { var t = fmt(v); if (seen[t]) return; seen[t] = 1; out.push({ t: t, ok: ok }); }
+    add(correct, true);
+    ds.forEach(function (d) { if (out.length < 3 && d > 0) add(d, false); });
+    [correct * 2, correct / 2, correct + 1, correct * 3].forEach(function (d) { if (out.length < 3 && d > 0) add(d, false); });
+    return K.shuffle(out);
+  };
+  K.ask = function (p, go) {
+    if (!D.predict || !p) { go(); return; }
+    var html = '<div class="mhead"><span class="mascot" id="askM" data-mood="think" aria-hidden="true"></span><h3>Tebak dulu!</h3></div><p class="mq">' + p.q + '</p>' +
+      '<div class="opts">' + p.opts.map(function (o, i) { return '<button class="opt" type="button" data-i="' + i + '">' + o.t + '</button>'; }).join('') + '</div>' +
+      '<div class="mfb" id="mfb" aria-live="polite"></div><div class="mact" id="mAct"><button class="btn small" id="mSkip" type="button">Lewati, langsung lihat</button></div>';
+    K.openModal(html, { closable: false });
+    var done = false, btns = mcard.querySelectorAll('.opt');
+    function finish() { K.closeModal(); go(); }
+    $('mSkip').onclick = function () { if (!done) finish(); };
+    Array.prototype.forEach.call(btns, function (b) {
+      b.addEventListener('click', function () {
+        if (done) return; done = true;
+        var o = p.opts[+b.getAttribute('data-i')];
+        Array.prototype.forEach.call(btns, function (bb, i) { bb.disabled = true; if (p.opts[i].ok) bb.classList.add('good'); });
+        if (!o.ok) b.classList.add('bad');
+        K.mascot('askM', o.ok ? 'happy' : 'sad');
+        if (o.ok) K.sound.ok(); else K.sound.bad();
+        $('mfb').innerHTML = '<p><b>' + (o.ok ? 'Tebakanmu benar!' : 'Hampir! Tidak apa-apa, ayo lihat kenapa.') + '</b> ' + p.why + '</p>';
+        $('mAct').innerHTML = '<button class="btn" id="mNext" type="button" style="--bg: var(--sun)" data-autofocus>Lihat hasilnya</button>';
+        $('mNext').onclick = finish; $('mNext').focus();
+      });
+    });
+  };
+})();
+</script>
+<script>
+/* ===== Bagian B: Level 1 (petri dish yang membelah, lalu jadi grafik) ===== */
+(function () {
+  'use strict';
+  var K = window.LabKit;
+  var pop = function (f) { K.sound.pop(f); };
+  var MAXX = 7, MINGRAPH = 4;
+  var PAL = ['#FF7AA8', '#FFB84D', '#5FD0BA', '#8E9BFF', '#A8DB5A', '#FF9770', '#C792EA', '#58B8F0'];
+  var GEN = K.GEN;
+  var INK = '#243352', PAPER = '#FFFBEE', BENCH = '#8ED2C0', PINK = '#FF4F7E';
+  var DISPLAY = K.DISPLAY, BODY = K.BODY;
+  var BUB = [{x:-.55,y:-.35,r:.05},{x:.5,y:.5,r:.07},{x:-.3,y:.62,r:.035},{x:.62,y:-.3,r:.04},{x:.05,y:-.72,r:.03},{x:-.68,y:.2,r:.03}];
+  var TAU = Math.PI * 2;
+
+  var $ = K.$;
+  var stage = $('stage'), cvs = $('cv'), ctx = cvs.getContext('2d');
+  var reduce = K.reduce;
+  var rnd = K.rnd;
+  var pick = function (a) { return a[(Math.random() * a.length) | 0]; };
+  var ease = function (t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; };
+  var nf = K.nf;
+
+  var W = 0, H = 0, dpr = 1, lastDish = null, active = false;
+  var x = 0, mode = 'dish', modeT = 0, parts = [], floaters = [], G = null;
+  var curveBegin = 0, curveP = 0, done = false, hg = -1, probed = false;
+
+  function dish() { var m = Math.min(W, H); return { cx: W / 2, cy: H / 2, R: m * 0.39 }; }
+  function lenFor(count) { var R = dish().R; return Math.min(R * 0.5, 1.45 * R / Math.sqrt(count)); }
+
+  function mkPart(px, py, a, col, len) {
+    return { x: px, y: py, tx: px, ty: py, a: a, ta: a, len: len, tlen: len, col: col,
+      wob: Math.random() * TAU, stretch: 0, scale: 1, launched: false, launchAt: 0, slot: -1 };
+  }
+
+  function relax(pts, r) {
+    var d = dish(), lim = d.R - r * 1.05, min = 2 * r;
+    for (var it = 0; it < 60; it++) {
+      for (var i = 0; i < pts.length; i++) {
+        for (var j = i + 1; j < pts.length; j++) {
+          var dx = pts[j].x - pts[i].x, dy = pts[j].y - pts[i].y, dd = Math.hypot(dx, dy);
+          if (dd < min) {
+            if (dd < 0.001) { dx = Math.random() - .5; dy = Math.random() - .5; dd = Math.hypot(dx, dy) || 1; }
+            var push = (min - dd) / 2 / dd;
+            pts[i].x -= dx * push; pts[i].y -= dy * push;
+            pts[j].x += dx * push; pts[j].y += dy * push;
+          }
+        }
+      }
+      for (var k = 0; k < pts.length; k++) {
+        var ex = pts[k].x - d.cx, ey = pts[k].y - d.cy, ed = Math.hypot(ex, ey);
+        if (ed > lim) { pts[k].x = d.cx + ex / ed * lim; pts[k].y = d.cy + ey / ed * lim; }
+      }
+    }
+  }
+
+  function layoutGraph(xm) {
+    var small = W < 520;
+    var ml = small ? 44 : 60, mr = small ? 14 : 24, mt = small ? 58 : 62, mb = small ? 50 : 58;
+    var cw = (W - ml - mr) / (xm + 1), ch = H - mt - mb;
+    var n = Math.max(1, Math.ceil(Math.sqrt(Math.pow(2, xm) * 0.72 * cw * 0.82 / ch)));
+    var s = cw * 0.82 / n, h = s * 0.72, base = H - mb, slots = [];
+    for (var g = 0; g <= xm; g++) {
+      var cnt = Math.pow(2, g), cx = ml + (g + 0.5) * cw, left = cx - n * s / 2;
+      for (var i = 0; i < cnt; i++) {
+        var row = Math.floor(i / n), col = i % n, inRow = Math.min(n, cnt - row * n);
+        slots.push({ g: g, x: left + (n - inRow) * s / 2 + (col + 0.5) * s, y: base - (row + 0.5) * h });
+      }
+    }
+    return { xm: xm, ml: ml, mr: mr, mt: mt, mb: mb, cw: cw, ch: ch, n: n, s: s, h: h, base: base, slots: slots, small: small };
+  }
+  function yOf(v) { return G.base - v / G.n * G.h; }
+
+  /* ---------- Tebak dulu ---------- */
+  function predictInfo() {
+    if (mode !== 'dish' || x >= MAXX) return null;
+    var n = Math.pow(2, x), nx = n * 2;
+    return {
+      q: 'Sekarang ada ' + nf(n) + ' bakteri. Semuanya membelah jadi dua. Berapa jumlah bakteri sesudahnya?',
+      opts: K.mkOpts(nx, [n + 2, n * 4], function (v) { return nf(v) + ' bakteri'; }),
+      why: 'Tiap bakteri menjadi 2, jadi jumlahnya dikali 2: ' + nf(n) + ' × 2 = ' + nf(nx) + '. Bukan ditambah 2!'
+    };
+  }
+  function requestDivide() {
+    if (mode !== 'dish') return;
+    if (x >= MAXX) { divide(); return; }
+    K.ask(predictInfo(), divide);
+  }
+
+  function divide() {
+    if (mode !== 'dish') return;
+    var d = dish();
+    if (x >= MAXX) { floaters.push({ x: d.cx, y: d.cy - d.R * 1.05, txt: 'penuh!', life: 1, size: d.R * 0.24 }); return; }
+    x++;
+    var newLen = lenFor(Math.pow(2, x)), r = newLen * 0.4;
+    var out = [], pts = [];
+    for (var i = 0; i < parts.length; i++) {
+      var p = parts[i];
+      var ox = Math.cos(p.a) * p.len * 0.3, oy = Math.sin(p.a) * p.len * 0.3;
+      var c = mkPart(p.x, p.y, p.a + rnd(-.7, .7), Math.random() < .3 ? pick(PAL) : p.col, p.len);
+      p.stretch = 1; c.stretch = 1;
+      out.push(p, c);
+      pts.push({ x: p.tx - ox, y: p.ty - oy }, { x: p.tx + ox, y: p.ty + oy });
+    }
+    relax(pts, r);
+    for (var j = 0; j < out.length; j++) {
+      out[j].tx = pts[j].x; out[j].ty = pts[j].y; out[j].tlen = newLen; out[j].ta = out[j].a + rnd(-.5, .5);
+    }
+    parts = out;
+    floaters.push({ x: d.cx, y: d.cy - d.R * 1.05, txt: '×2', life: 1, size: d.R * 0.28 });
+    pop(260 + x * 60);
+    addChip(x);
+    setNote(x === MAXX
+      ? 'Wah, petri dish penuh dengan ' + nf(Math.pow(2, x)) + ' bakteri! Saatnya disusun jadi grafik.'
+      : 'Menit ke-' + x + ': ' + nf(Math.pow(2, x - 1)) + ' bakteri membelah jadi ' + nf(Math.pow(2, x)) + '. Tiap kali dikali 2!', x === MAXX ? 'wow' : 'happy');
+    updateUI();
+  }
+
+  function launch(p) {
+    var sl = G.slots[p.slot];
+    p.launched = true; p.tx = sl.x; p.ty = sl.y; p.tlen = G.s * 0.9;
+    p.a = ((p.a + Math.PI) % TAU + TAU) % TAU - Math.PI; p.ta = 0;
+    p.col = GEN[sl.g]; p.stretch = 0.6;
+  }
+
+  function toGraph() {
+    if (mode !== 'dish' || x < MINGRAPH) return;
+    mode = 'graph'; done = false; curveP = 0; hg = -1;
+    G = layoutGraph(x);
+    var need = G.slots.length;
+    while (parts.length < need) {
+      var s = pick(parts);
+      var c = mkPart(s.tx + rnd(-6, 6), s.ty + rnd(-6, 6), rnd(0, TAU), pick(PAL), s.tlen);
+      c.scale = 0; parts.push(c);
+    }
+    for (var i = parts.length - 1; i > 0; i--) {
+      var j = (Math.random() * (i + 1)) | 0, t = parts[i]; parts[i] = parts[j]; parts[j] = t;
+    }
+    var base = performance.now() + 250, mx = 0, lastG = -1, idx = 0;
+    for (var k = 0; k < parts.length; k++) {
+      var sl = G.slots[k];
+      if (sl.g !== lastG) { lastG = sl.g; idx = 0; }
+      var delay = sl.g * 230 + idx * (sl.g >= 5 ? 5 : 10);
+      idx++;
+      parts[k].slot = k; parts[k].launchAt = base + delay; parts[k].launched = false;
+      if (delay > mx) mx = delay;
+    }
+    curveBegin = base + mx + 900;
+    setNote('Lihat, bakteri berbaris! Kolom ke-x berisi 2ˣ bakteri. Tiap kolom dua kali lebih tinggi dari kolom sebelumnya.', 'wow');
+    pop(520);
+    updateUI();
+  }
+
+  function reset() {
+    mode = 'dish'; modeT = 0; G = null; x = 0; done = false; curveP = 0; floaters = []; hg = -1; probed = false;
+    var d = dish();
+    var p = mkPart(d.cx, d.cy, rnd(-.5, .5), PAL[0], lenFor(1));
+    p.scale = 0;
+    parts = [p];
+    $('chips').innerHTML = '';
+    addChip(0);
+    $('btnQuiz').disabled = true; $('btnQuiz').classList.remove('pulse');
+    setNote('Halo! Aku Bip, bakteri pertama di lab ini. Klik petri dish supaya aku membelah diri!', 'happy');
+    updateUI();
+  }
+
+  function addChip(g) {
+    if (g > 0) {
+      var ar = document.createElement('li');
+      ar.className = 'chip arrow pop'; ar.setAttribute('aria-hidden', 'true'); ar.textContent = '×2 →';
+      $('chips').appendChild(ar);
+    }
+    var li = document.createElement('li');
+    li.className = 'chip pop';
+    li.style.setProperty('--c', GEN[g]);
+    li.innerHTML = '2<sup>' + g + '</sup> = ' + nf(Math.pow(2, g));
+    $('chips').appendChild(li);
+  }
+  function setNote(s, mood) { $('note').textContent = s; K.mascot('mascot1', mood || 'normal'); }
+
+  function calcText() {
+    var n = Math.pow(2, x);
+    if (x === 0) return '<small>Hitungannya</small>Mulai dari 1 bakteri';
+    var chain = '1'; for (var i = 0; i < Math.min(x, 7); i++) chain += ' × 2';
+    return '<small>Hitungannya</small>' + chain + ' = ' + nf(n) + ' bakteri';
+  }
+
+  function updateUI() {
+    var n = Math.pow(2, x);
+    $('minute').textContent = x;
+    $('count').textContent = nf(n);
+    $('formula').innerHTML = '2<sup>' + x + '</sup> = ' + nf(n);
+    $('calc1').innerHTML = calcText();
+    var graph = mode === 'graph';
+    $('btnDivide').hidden = graph;
+    $('btnGraph').hidden = graph;
+    var full = x >= MAXX;
+    $('btnDivide').disabled = full;
+    $('btnDivide').textContent = full ? 'Dish penuh' : 'Belah! +1 menit';
+    var canGraph = !graph && x >= MINGRAPH;
+    $('btnGraph').disabled = !canGraph;
+    $('btnGraph').classList.toggle('pulse', canGraph);
+    var hint = '';
+    if (graph) hint = done ? 'Sentuh sebuah kolom di grafik untuk membaca angkanya, lalu coba kuisnya.' : 'Tunggu sebentar, bakteri sedang berbaris.';
+    else if (full) hint = 'Dish sudah penuh. Susun jadi grafik sekarang.';
+    else if (x < MINGRAPH) hint = 'Belah sampai menit ke-' + MINGRAPH + ' dulu ya.';
+    else hint = 'Sudah cukup? Susun jadi grafik, atau terus membelah sampai menit ke-' + MAXX + '.';
+    $('hint').textContent = hint;
+    if (K.onL1) K.onL1();
+  }
+
+  function rr(px, py, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(px + r, py);
+    ctx.arcTo(px + w, py, px + w, py + h, r);
+    ctx.arcTo(px + w, py + h, px, py + h, r);
+    ctx.arcTo(px, py + h, px, py, r);
+    ctx.arcTo(px, py, px + w, py, r);
+    ctx.closePath();
+  }
+  function circle(cx, cy, r, fill) { ctx.beginPath(); ctx.arc(cx, cy, r, 0, TAU); ctx.fillStyle = fill; ctx.fill(); }
+  function capsule(l, w) {
+    var r = w / 2;
+    ctx.beginPath();
+    ctx.moveTo(-l / 2 + r, -r);
+    ctx.lineTo(l / 2 - r, -r);
+    ctx.arc(l / 2 - r, 0, r, -Math.PI / 2, Math.PI / 2);
+    ctx.lineTo(-l / 2 + r, r);
+    ctx.arc(-l / 2 + r, 0, r, Math.PI / 2, Math.PI * 1.5);
+    ctx.closePath();
+  }
+
+  function drawDish(a) {
+    var d = dish(), R = d.R;
+    ctx.save();
+    ctx.globalAlpha = a;
+    circle(d.cx, d.cy + 7, R * 1.16, 'rgba(36,51,82,.25)');
+    circle(d.cx, d.cy, R * 1.16, INK);
+    circle(d.cx, d.cy, R * 1.08, '#D4F0FF');
+    var g = ctx.createRadialGradient(d.cx - R * .2, d.cy - R * .25, R * .1, d.cx, d.cy, R);
+    g.addColorStop(0, '#FFF4D6'); g.addColorStop(1, '#FFD89E');
+    circle(d.cx, d.cy, R, g);
+    ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(36,51,82,.18)';
+    ctx.beginPath(); ctx.arc(d.cx, d.cy, R, 0, TAU); ctx.stroke();
+    ctx.lineCap = 'round'; ctx.lineWidth = Math.max(5, R * .04); ctx.strokeStyle = 'rgba(255,255,255,.9)';
+    ctx.beginPath(); ctx.arc(d.cx, d.cy, R * 1.04, Math.PI * 1.08, Math.PI * 1.32); ctx.stroke();
+    ctx.lineWidth = 2.5; ctx.strokeStyle = 'rgba(255,255,255,.75)';
+    for (var i = 0; i < BUB.length; i++) {
+      ctx.beginPath(); ctx.arc(d.cx + BUB[i].x * R, d.cy + BUB[i].y * R, BUB[i].r * R, 0, TAU); ctx.stroke();
+    }
+    ctx.font = '700 14px ' + DISPLAY;
+    var label = 'lihat dengan mikroskop', tw = ctx.measureText(label).width;
+    rr(14, 14, tw + 24, 30, 15); ctx.fillStyle = '#fff'; ctx.fill();
+    ctx.lineWidth = 3; ctx.strokeStyle = INK; ctx.stroke();
+    ctx.fillStyle = INK; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+    ctx.fillText(label, 26, 30);
+    ctx.restore();
+  }
+
+  function drawPaper(a) {
+    var m = 10;
+    ctx.save();
+    ctx.globalAlpha = a;
+    rr(m, m, W - 2 * m, H - 2 * m, 18); ctx.fillStyle = PAPER; ctx.fill();
+    ctx.save(); ctx.clip();
+    ctx.strokeStyle = 'rgba(127,200,242,.38)'; ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (var gx = m; gx < W; gx += 24) { ctx.moveTo(gx, m); ctx.lineTo(gx, H - m); }
+    for (var gy = m; gy < H; gy += 24) { ctx.moveTo(m, gy); ctx.lineTo(W - m, gy); }
+    ctx.stroke();
+    ctx.restore();
+    rr(m, m, W - 2 * m, H - 2 * m, 18); ctx.lineWidth = 3; ctx.strokeStyle = INK; ctx.stroke();
+
+    if (hg >= 0 && hg <= G.xm) {
+      rr(G.ml + hg * G.cw + 3, G.mt - 4, G.cw - 6, G.base - G.mt + 4, 10);
+      ctx.fillStyle = 'rgba(255,194,71,.35)'; ctx.fill();
+    }
+
+    ctx.fillStyle = INK; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+    ctx.font = '800 ' + (G.small ? 19 : 22) + 'px ' + DISPLAY;
+    ctx.fillText('Grafik bakteri  N = 2ˣ', 26, 30);
+    ctx.font = '800 12px ' + BODY;
+    ctx.fillText('jumlah bakteri', G.ml - 6, G.mt - 14);
+
+    ctx.setLineDash([5, 5]); ctx.lineWidth = 1.5; ctx.strokeStyle = 'rgba(36,51,82,.3)';
+    ctx.textAlign = 'right';
+    ctx.font = '800 ' + (G.small ? 11 : 13) + 'px ' + BODY;
+    for (var k = Math.max(1, G.xm - 3); k <= G.xm; k++) {
+      var gy2 = yOf(Math.pow(2, k));
+      ctx.beginPath(); ctx.moveTo(G.ml, gy2); ctx.lineTo(W - G.mr, gy2); ctx.stroke();
+      ctx.fillText(String(Math.pow(2, k)), G.ml - 8, gy2);
+    }
+    ctx.setLineDash([]);
+
+    ctx.strokeStyle = INK; ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.beginPath();
+    ctx.moveTo(G.ml, G.mt - 4); ctx.lineTo(G.ml, G.base); ctx.lineTo(W - G.mr + 4, G.base);
+    ctx.stroke();
+
+    ctx.fillStyle = INK; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.font = '800 ' + (G.small ? 13 : 15) + 'px ' + BODY;
+    for (var g = 0; g <= G.xm; g++) ctx.fillText(String(g), G.ml + (g + .5) * G.cw, G.base + 17);
+    ctx.font = '800 12px ' + BODY;
+    ctx.fillText('menit ke-x', G.ml + (W - G.ml - G.mr) / 2, G.base + (G.small ? 36 : 40));
+    ctx.restore();
+  }
+
+  function drawBac(p, t) {
+    if (p.scale < 0.02) return;
+    var graphed = mode === 'graph' && p.launched;
+    var s = p.len * p.scale;
+    var bob = reduce ? 0 : Math.sin(t * 2 + p.wob) * s * (graphed ? 0.02 : 0.05);
+    var L = s * (1 + 0.35 * p.stretch), Wd = s * 0.6 * (1 - 0.12 * p.stretch);
+    var ang = p.a + (reduce ? 0 : Math.sin(t * 1.4 + p.wob) * 0.06);
+    var px = p.x, py = p.y + bob;
+    ctx.save();
+    ctx.translate(px, py); ctx.rotate(ang);
+    capsule(L, Wd);
+    ctx.fillStyle = p.col; ctx.fill();
+    ctx.lineWidth = Math.max(1, s * 0.045); ctx.strokeStyle = INK; ctx.lineJoin = 'round'; ctx.stroke();
+    if (L > 9) {
+      ctx.beginPath(); ctx.ellipse(-L * 0.18, -Wd * 0.24, L * 0.18, Wd * 0.07, 0, 0, TAU);
+      ctx.fillStyle = 'rgba(255,255,255,.5)'; ctx.fill();
+    }
+    ctx.restore();
+    if (s >= 17) {
+      var er = Math.max(1.2, s * 0.055);
+      ctx.save(); ctx.translate(px, py);
+      ctx.fillStyle = INK;
+      ctx.beginPath(); ctx.arc(-s * 0.1, -s * 0.04, er, 0, TAU); ctx.fill();
+      ctx.beginPath(); ctx.arc(s * 0.1, -s * 0.04, er, 0, TAU); ctx.fill();
+      ctx.lineWidth = Math.max(1.2, s * 0.035); ctx.lineCap = 'round'; ctx.strokeStyle = INK;
+      ctx.beginPath(); ctx.arc(0, s * 0.03, s * 0.09, Math.PI * 0.15, Math.PI * 0.85); ctx.stroke();
+      if (s >= 28) {
+        ctx.fillStyle = 'rgba(255,90,130,.45)';
+        ctx.beginPath(); ctx.ellipse(-s * 0.19, s * 0.07, s * 0.045, s * 0.03, 0, 0, TAU); ctx.fill();
+        ctx.beginPath(); ctx.ellipse(s * 0.19, s * 0.07, s * 0.045, s * 0.03, 0, 0, TAU); ctx.fill();
+      }
+      ctx.restore();
+    }
+  }
+
+  function drawCurve() {
+    var p = ease(curveP), tmax = G.xm * p;
+    if (tmax <= 0) return;
+    ctx.save();
+    ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    var trace = function () {
+      ctx.beginPath();
+      for (var u = 0; u < tmax; u += 0.04) {
+        var qx = G.ml + (u + 0.5) * G.cw, qy = yOf(Math.pow(2, u));
+        if (u === 0) ctx.moveTo(qx, qy); else ctx.lineTo(qx, qy);
+      }
+      ctx.lineTo(G.ml + (tmax + 0.5) * G.cw, yOf(Math.pow(2, tmax)));
+    };
+    trace(); ctx.lineWidth = 9; ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.stroke();
+    trace(); ctx.lineWidth = 4; ctx.strokeStyle = PINK; ctx.stroke();
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.font = '800 ' + (G.small ? 13 : 16) + 'px ' + DISPLAY;
+    for (var g = 0; g <= Math.floor(tmax + 1e-6); g++) {
+      var cx = G.ml + (g + 0.5) * G.cw, cy = yOf(Math.pow(2, g));
+      ctx.beginPath(); ctx.arc(cx, cy, G.small ? 5.5 : 7, 0, TAU);
+      ctx.fillStyle = '#fff'; ctx.fill(); ctx.lineWidth = 3; ctx.strokeStyle = INK; ctx.stroke();
+      ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(255,251,238,.95)';
+      ctx.strokeText(String(Math.pow(2, g)), cx, cy - (G.small ? 16 : 19));
+      ctx.fillStyle = INK; ctx.fillText(String(Math.pow(2, g)), cx, cy - (G.small ? 16 : 19));
+    }
+    if (hg >= 0 && hg <= G.xm && curveP >= 1) {
+      var txt = 'menit ' + hg + ': ' + nf(Math.pow(2, hg)) + ' bakteri';
+      ctx.font = '800 ' + (G.small ? 12 : 14) + 'px ' + DISPLAY;
+      var tw = ctx.measureText(txt).width + 18, bx = K.clamp(G.ml + (hg + .5) * G.cw - tw / 2, 14, W - 14 - tw), by = G.mt + 4;
+      rr(bx, by, tw, 26, 13); ctx.fillStyle = '#fff'; ctx.fill(); ctx.lineWidth = 3; ctx.strokeStyle = INK; ctx.stroke();
+      ctx.fillStyle = INK; ctx.fillText(txt, bx + tw / 2, by + 13.5);
+    }
+    ctx.restore();
+  }
+
+  function drawFloaters() {
+    ctx.save();
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round';
+    for (var i = 0; i < floaters.length; i++) {
+      var f = floaters[i];
+      ctx.globalAlpha = Math.min(1, f.life * 1.5);
+      ctx.font = '800 ' + f.size + 'px ' + DISPLAY;
+      ctx.lineWidth = 6; ctx.strokeStyle = INK; ctx.strokeText(f.txt, f.x, f.y);
+      ctx.fillStyle = '#FFE07A'; ctx.fillText(f.txt, f.x, f.y);
+    }
+    ctx.restore();
+  }
+
+  function draw(t) {
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = BENCH; ctx.fillRect(0, 0, W, H);
+    if (modeT < 0.999) drawDish(1 - modeT);
+    if (modeT > 0.001 && G) drawPaper(modeT);
+    for (var i = 0; i < parts.length; i++) drawBac(parts[i], t);
+    if (mode === 'graph' && G && modeT > 0.5) drawCurve();
+    if (mode === 'dish' && x === 0 && parts.length === 1 && parts[0].scale > 0.8) {
+      var d = dish(), bounce = reduce ? 0 : Math.abs(Math.sin(t * 3)) * d.R * 0.05;
+      ctx.save();
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.font = '800 ' + Math.round(d.R * 0.15) + 'px ' + DISPLAY;
+      ctx.lineJoin = 'round'; ctx.lineWidth = 6; ctx.strokeStyle = '#fff';
+      ctx.strokeText('klik aku!', d.cx, d.cy - d.R * 0.34 - bounce);
+      ctx.fillStyle = INK; ctx.fillText('klik aku!', d.cx, d.cy - d.R * 0.34 - bounce);
+      ctx.restore();
+    }
+    drawFloaters();
+  }
+
+  function update(dt, now) {
+    var k = 1 - Math.exp(-dt * (reduce ? 40 : 9));
+    var kf = 1 - Math.exp(-dt * (reduce ? 40 : 5));
+    var target = mode === 'graph' ? 1 : 0, diff = target - modeT;
+    modeT += Math.sign(diff) * Math.min(Math.abs(diff), dt * 1.2);
+    for (var i = 0; i < parts.length; i++) {
+      var p = parts[i];
+      if (mode === 'graph' && !p.launched && now >= p.launchAt) launch(p);
+      var kk = p.launched ? kf : k;
+      p.x += (p.tx - p.x) * kk; p.y += (p.ty - p.y) * kk;
+      p.a += (p.ta - p.a) * kk; p.len += (p.tlen - p.len) * kk;
+      p.scale += (1 - p.scale) * k;
+      if (p.stretch > 0) p.stretch = Math.max(0, p.stretch - dt * 3);
+    }
+    if (mode === 'graph') {
+      curveP = reduce ? (now >= curveBegin ? 1 : 0) : Math.min(1, Math.max(0, (now - curveBegin) / 1500));
+      if (curveP >= 1 && !done) {
+        done = true;
+        setNote('Ini grafiknya! Tiap menit tingginya dua kali lipat, jadi kurvanya makin curam. Coba sentuh sebuah kolom untuk membaca angkanya.', 'happy');
+        pop(660);
+        $('btnQuiz').disabled = false; $('btnQuiz').classList.add('pulse');
+        updateUI();
+      }
+    }
+    for (var j = floaters.length - 1; j >= 0; j--) {
+      floaters[j].y -= dt * 50; floaters[j].life -= dt * 0.9;
+      if (floaters[j].life <= 0) floaters.splice(j, 1);
+    }
+  }
+
+  var last = performance.now();
+  function frame(now) {
+    var dt = Math.min(0.05, (now - last) / 1000);
+    last = now;
+    if (W && active) { update(dt, now); draw(now / 1000); }
+    requestAnimationFrame(frame);
+  }
+
+  function onResize() {
+    var w = stage.clientWidth, h = stage.clientHeight;
+    if (!w || !h) return;
+    var old = lastDish;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = w; H = h;
+    cvs.width = Math.round(W * dpr); cvs.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var nd = dish(); lastDish = nd;
+    if (old && old.R > 0) {
+      var ratio = nd.R / old.R;
+      for (var i = 0; i < parts.length; i++) {
+        var p = parts[i];
+        if (p.launched) continue;
+        p.x = nd.cx + (p.x - old.cx) * ratio; p.y = nd.cy + (p.y - old.cy) * ratio;
+        p.tx = nd.cx + (p.tx - old.cx) * ratio; p.ty = nd.cy + (p.ty - old.cy) * ratio;
+        p.len *= ratio; p.tlen *= ratio;
+      }
+    }
+    if (mode === 'graph' && G) {
+      G = layoutGraph(G.xm);
+      for (var j = 0; j < parts.length; j++) {
+        var q = parts[j];
+        if (!q.launched) continue;
+        var sl = G.slots[q.slot];
+        q.tx = q.x = sl.x; q.ty = q.y = sl.y; q.tlen = q.len = G.s * 0.9;
+      }
+    }
+  }
+
+  $('btnDivide').addEventListener('click', requestDivide);
+  $('btnGraph').addEventListener('click', toGraph);
+  $('btnReset').addEventListener('click', reset);
+  $('btnQuiz').addEventListener('click', function () { if (window.Game) window.Game.quiz(1); });
+  cvs.addEventListener('pointerdown', function (e) {
+    var r = cvs.getBoundingClientRect(), px = e.clientX - r.left, py = e.clientY - r.top;
+    if (mode === 'dish') {
+      var d = dish();
+      if (Math.hypot(px - d.cx, py - d.cy) <= d.R * 1.16) requestDivide();
+    } else if (G && done) {
+      var g = Math.floor((px - G.ml) / G.cw);
+      if (g >= 0 && g <= G.xm && py > G.mt - 10 && py < G.base + 4) {
+        hg = g; probed = true; pop(400 + g * 50);
+        setNote('Menit ke-' + g + ': 2' + '^' + g + ' = ' + nf(Math.pow(2, g)) + ' bakteri. Itu ' + (g === 0 ? 'bakteri pertama (belum membelah).' : 'dua kali lipat dari menit sebelumnya.'), 'happy');
+        updateUI();
+      }
+    }
+  });
+  if (window.ResizeObserver) new ResizeObserver(onResize).observe(stage);
+  else window.addEventListener('resize', onResize);
+
+  if (document.fonts && document.fonts.load) {
+    document.fonts.load('800 20px "Baloo 2"');
+    document.fonts.load('800 13px Nunito');
+  }
+
+  window.Lab1 = {
+    enter: function () { active = true; last = performance.now(); onResize(); reset(); },
+    leave: function () { active = false; },
+    state: function () { return { x: x, graphDone: mode === 'graph' && done, probed: probed }; }
+  };
+  requestAnimationFrame(frame);
+})();
+</script>
+<script>
+/* ===== Bagian C: peta, level 2-5, kuis, navigasi (bagian 1: dasar dan data) ===== */
+(function () {
+  'use strict';
+  var K = window.LabKit, $ = K.$, TAU = K.TAU, nf = K.nf, auto = K.auto, clamp = K.clamp, rnd = K.rnd, reduce = K.reduce;
+  var INK = K.INK, PAPER = K.PAPER, PINK = K.PINK, SUN = K.SUN, SKY = K.SKY, GRAPE = K.GRAPE, BENCH = K.BENCH;
+  var DISPLAY = K.DISPLAY, BODY = K.BODY, GEN = K.GEN;
+  var pop = function (f) { K.sound.pop(f); };
+
+  function niceTicks(max, n) {
+    var raw = max / n, p = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / p;
+    var s = (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * p;
+    var top = Math.ceil(max / s - 1e-9), t = [];
+    for (var i = 0; i <= top; i++) t.push(+(i * s).toFixed(6));
+    return { ticks: t, max: top * s, step: s };
+  }
+  function range(a, b) { var r = []; for (var i = a; i <= b; i++) r.push(i); return r; }
+  function rr(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+  function disc(ctx, x, y, r, fill, lw) {
+    ctx.beginPath(); ctx.arc(x, y, r, 0, TAU);
+    ctx.fillStyle = fill; ctx.fill();
+    if (lw) { ctx.lineWidth = lw; ctx.strokeStyle = INK; ctx.stroke(); }
+  }
+  function chain(a, b, k, fb) {
+    var s = String(a);
+    if (k <= 5) { for (var i = 0; i < k; i++) s += ' × ' + fb; }
+    else s += ' × ' + fb + ' × ' + fb + ' × … × ' + fb + ' (' + k + ' kali)';
+    return s;
+  }
+  function plain(fn) { return fn.replace(/<sup>(.*?)<\/sup>/g, '^$1').replace(/<[^>]+>/g, ''); }
+
+  function mkCanvas(stageId, cvId) {
+    var o = { stage: $(stageId), cv: $(cvId), W: 0, H: 0, dpr: 1, onsize: null, hx: null, tf: null };
+    o.ctx = o.cv.getContext('2d');
+    o.resize = function () {
+      var w = o.stage.clientWidth, h = o.stage.clientHeight;
+      if (!w || !h) return false;
+      o.dpr = Math.min(window.devicePixelRatio || 1, 2);
+      o.W = w; o.H = h;
+      o.cv.width = Math.round(w * o.dpr); o.cv.height = Math.round(h * o.dpr);
+      o.ctx.setTransform(o.dpr, 0, 0, o.dpr, 0, 0);
+      return true;
+    };
+    if (window.ResizeObserver) new ResizeObserver(function () { if (o.resize() && o.onsize) o.onsize(); }).observe(o.stage);
+    return o;
+  }
+
+  /* ---------- grafik kertas milimeter (dipakai semua level) ---------- */
+  function drawChart(c, o) {
+    var ctx = c.ctx, W = c.W, H = c.H, m = 8, small = W < 440;
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = BENCH; ctx.fillRect(0, 0, W, H);
+    rr(ctx, m, m, W - 2 * m, H - 2 * m, 18); ctx.fillStyle = PAPER; ctx.fill();
+    ctx.save(); ctx.clip();
+    ctx.strokeStyle = 'rgba(127,200,242,.38)'; ctx.lineWidth = 1; ctx.beginPath();
+    for (var gx = m; gx < W; gx += 24) { ctx.moveTo(gx, m); ctx.lineTo(gx, H - m); }
+    for (var gy = m; gy < H; gy += 24) { ctx.moveTo(m, gy); ctx.lineTo(W - m, gy); }
+    ctx.stroke(); ctx.restore();
+    rr(ctx, m, m, W - 2 * m, H - 2 * m, 18); ctx.lineWidth = 3; ctx.strokeStyle = INK; ctx.stroke();
+
+    var hasLeg = o.legend && o.legend.length;
+    var ml = small ? 50 : 62, mr = small ? 18 : 24, mt = hasLeg ? (small ? 70 : 62) : 36, mb = small ? 52 : 58;
+    var pw = W - ml - mr, ph = H - mt - mb;
+    var X = function (v) { return ml + (v - o.xmin) / (o.xmax - o.xmin) * pw; };
+    var Y = function (v) { return mt + ph - (v - o.ymin) / (o.ymax - o.ymin) * ph; };
+    var fs = small ? 11 : 13;
+
+    ctx.textBaseline = 'middle'; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    (o.yticks || []).forEach(function (t) {
+      var y = Y(t);
+      ctx.setLineDash([5, 5]); ctx.lineWidth = 1.5; ctx.strokeStyle = 'rgba(36,51,82,.28)';
+      ctx.beginPath(); ctx.moveTo(ml, y); ctx.lineTo(W - mr, y); ctx.stroke(); ctx.setLineDash([]);
+      ctx.font = '800 ' + fs + 'px ' + BODY; ctx.textAlign = 'right'; ctx.fillStyle = INK;
+      ctx.fillText(o.yfmt ? o.yfmt(t) : String(t), ml - 8, y);
+    });
+    (o.xticks || []).forEach(function (t, i) {
+      var xx = X(t);
+      ctx.setLineDash([2, 5]); ctx.lineWidth = 1.5; ctx.strokeStyle = 'rgba(36,51,82,.18)';
+      ctx.beginPath(); ctx.moveTo(xx, mt); ctx.lineTo(xx, mt + ph); ctx.stroke(); ctx.setLineDash([]);
+      ctx.font = '800 ' + fs + 'px ' + BODY; ctx.textAlign = 'center'; ctx.fillStyle = INK;
+      ctx.fillText(o.xfmt ? o.xfmt(t, i) : String(t), xx, mt + ph + 17);
+    });
+    (o.hlines || []).forEach(function (h) {
+      var y = Y(h.y);
+      ctx.setLineDash([8, 6]); ctx.lineWidth = 2.5; ctx.strokeStyle = h.color || INK;
+      ctx.beginPath(); ctx.moveTo(ml, y); ctx.lineTo(W - mr, y); ctx.stroke(); ctx.setLineDash([]);
+      if (h.label) {
+        ctx.font = '800 ' + fs + 'px ' + DISPLAY; ctx.textAlign = 'left'; ctx.fillStyle = h.color || INK;
+        ctx.lineWidth = 4; ctx.strokeStyle = PAPER; ctx.strokeText(h.label, ml + 12, y - 11); ctx.fillText(h.label, ml + 12, y - 11);
+      }
+    });
+
+    ctx.strokeStyle = INK; ctx.lineWidth = 3; ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(ml, mt - 4); ctx.lineTo(ml, mt + ph); ctx.lineTo(W - mr + 4, mt + ph); ctx.stroke();
+    if (o.xmin < 0 && o.xmax > 0) {
+      ctx.beginPath(); ctx.moveTo(X(0), mt - 4); ctx.lineTo(X(0), mt + ph); ctx.stroke();
+    }
+
+    ctx.save();
+    ctx.beginPath(); ctx.rect(ml, mt - 3, pw + 3, ph + 6); ctx.clip();
+    (o.curves || []).forEach(function (cv) {
+      var path = function () {
+        ctx.beginPath();
+        if (cv.pts) {
+          cv.pts.forEach(function (p, i) { if (i) ctx.lineTo(X(p.x), Y(p.y)); else ctx.moveTo(X(p.x), Y(p.y)); });
+        } else {
+          if (cv.to <= cv.from) return false;
+          var n = Math.max(4, Math.ceil((cv.to - cv.from) / (o.xmax - o.xmin) * pw / 3));
+          for (var i = 0; i <= n; i++) {
+            var t = cv.from + (cv.to - cv.from) * i / n, px = X(t), py = Y(cv.fn(t));
+            if (i) ctx.lineTo(px, py); else ctx.moveTo(px, py);
+          }
+        }
+        return true;
+      };
+      ctx.globalAlpha = cv.alpha == null ? 1 : cv.alpha;
+      if (cv.halo && path()) { ctx.setLineDash([]); ctx.lineWidth = (cv.width || 4) + 5; ctx.strokeStyle = 'rgba(255,251,238,.95)'; ctx.stroke(); }
+      if (path()) { ctx.setLineDash(cv.dash || []); ctx.lineWidth = cv.width || 4; ctx.strokeStyle = cv.color; ctx.stroke(); }
+      ctx.setLineDash([]); ctx.globalAlpha = 1;
+    });
+    ctx.restore();
+
+    (o.points || []).forEach(function (p) {
+      var px = X(p.x), py = Y(p.y), r = p.r || (small ? 5.5 : 7);
+      if (py < mt - 4 || py > mt + ph + 4) return;
+      ctx.beginPath(); ctx.arc(px, py, r, 0, TAU); ctx.fillStyle = p.color || '#fff'; ctx.fill();
+      ctx.lineWidth = 3; ctx.strokeStyle = INK; ctx.stroke();
+      if (p.label) {
+        var below = py - 22 < mt;
+        var ty = below ? py + r + 12 : py - r - 11, tx = clamp(px, ml + 18, W - mr - 18);
+        ctx.font = '800 ' + (small ? 12 : 14) + 'px ' + DISPLAY; ctx.textAlign = 'center';
+        ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(255,251,238,.95)'; ctx.strokeText(p.label, tx, ty);
+        ctx.fillStyle = INK; ctx.fillText(p.label, tx, ty);
+      }
+    });
+
+    if (hasLeg) {
+      ctx.font = '800 ' + (small ? 12 : 13) + 'px ' + DISPLAY; ctx.textAlign = 'left';
+      var lx = ml, ly = 25;
+      o.legend.forEach(function (L) {
+        var tw = ctx.measureText(L.label).width;
+        if (lx + tw + 30 > W - 18 && lx > ml) { lx = ml; ly += 19; }
+        ctx.beginPath(); ctx.setLineDash(L.dash || []); ctx.lineWidth = 4; ctx.strokeStyle = L.color;
+        ctx.moveTo(lx, ly); ctx.lineTo(lx + 20, ly); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = INK; ctx.fillText(L.label, lx + 26, ly);
+        lx += tw + 44;
+      });
+    }
+    ctx.font = '800 12px ' + BODY; ctx.fillStyle = INK; ctx.textAlign = 'left';
+    ctx.fillText(o.ylabel || '', ml - 6, mt - 12);
+    ctx.textAlign = 'center';
+    ctx.fillText(o.xlabel || '', ml + pw / 2, mt + ph + (small ? 37 : 40));
+    c.tf = { X: X, Y: Y, ml: ml, mt: mt, pw: pw, ph: ph };
+    drawProbe(c, o);
+  }
+
+  /* membaca grafik: garis bantu, titik emas, dan label nilai di tempat yang disentuh */
+  function drawProbe(c, o) {
+    var t = c.tf, p = o.probe;
+    if (!p || c.hx == null || !t) return;
+    var xv = o.xmin + (c.hx - t.ml) / t.pw * (o.xmax - o.xmin), best = null, bd = 1e9;
+    p.xs.forEach(function (v) { var d = Math.abs(v - xv); if (d < bd) { bd = d; best = v; } });
+    if (best == null) return;
+    var ctx = c.ctx, px = t.X(best), py = clamp(t.Y(p.y(best)), t.mt, t.mt + t.ph);
+    ctx.save();
+    ctx.setLineDash([4, 5]); ctx.lineWidth = 2; ctx.strokeStyle = 'rgba(36,51,82,.6)';
+    ctx.beginPath(); ctx.moveTo(px, t.mt); ctx.lineTo(px, t.mt + t.ph); ctx.moveTo(t.ml, py); ctx.lineTo(px, py); ctx.stroke(); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.arc(px, py, 10, 0, TAU); ctx.fillStyle = SUN; ctx.fill(); ctx.lineWidth = 3; ctx.strokeStyle = INK; ctx.stroke();
+    var lines = p.text(best).split('\n'), w = 0;
+    ctx.font = '800 ' + (c.W < 440 ? 12 : 14) + 'px ' + DISPLAY;
+    lines.forEach(function (l) { w = Math.max(w, ctx.measureText(l).width); });
+    w += 22; var h = lines.length * 18 + 12;
+    var bx = clamp(px - w / 2, t.ml + 4, c.W - 14 - w), by = py - h - 18 < 12 ? py + 18 : py - h - 18;
+    by = clamp(by, 12, c.H - h - 12);
+    rr(ctx, bx, by, w, h, 12); ctx.fillStyle = '#fff'; ctx.fill(); ctx.lineWidth = 3; ctx.strokeStyle = INK; ctx.stroke();
+    ctx.fillStyle = INK; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+    lines.forEach(function (l, i) { ctx.fillText(l, bx + 11, by + 6 + 9 + i * 18); });
+    ctx.restore();
+  }
+
+  /* ---------- data: ikon, judul, cerita, kata baru, kuis, rangkuman, kamus ---------- */
+  var ICONS = {
+    1: '<rect x="5" y="14" width="38" height="22" rx="11" fill="#FF7AA8" stroke="#243352" stroke-width="3"/><circle cx="19" cy="24" r="2.5" fill="#243352"/><circle cx="29" cy="24" r="2.5" fill="#243352"/><path d="M20 29q4 4 8 0" fill="none" stroke="#243352" stroke-width="2.5" stroke-linecap="round"/>',
+    2: '<rect x="18" y="26" width="12" height="14" rx="5" fill="#FFF8E8" stroke="#243352" stroke-width="3"/><path d="M6 28a18 16 0 0 1 36 0z" fill="#FF7AA8" stroke="#243352" stroke-width="3" stroke-linejoin="round"/><circle cx="16" cy="22" r="2.4" fill="#fff"/><circle cx="26" cy="17" r="2.8" fill="#fff"/><circle cx="34" cy="23" r="2" fill="#fff"/><circle cx="21.5" cy="33" r="1.4" fill="#243352"/><circle cx="26.5" cy="33" r="1.4" fill="#243352"/>',
+    3: '<path d="M33 18h4a6 6 0 0 1 0 12h-4" fill="none" stroke="#243352" stroke-width="3.5" stroke-linecap="round"/><rect x="8" y="14" width="26" height="26" rx="8" fill="#fff" stroke="#243352" stroke-width="3"/><rect x="12" y="20" width="18" height="16" rx="5" fill="#B9805A"/><circle cx="18" cy="27" r="2" fill="#FFB84D"/><circle cx="25" cy="30" r="2" fill="#FFB84D"/><path d="M16 11q-3-3 0-6M24 11q-3-3 0-6" fill="none" stroke="#243352" stroke-width="2.5" stroke-linecap="round"/>',
+    4: '<ellipse cx="24" cy="28" rx="17" ry="13" fill="#FF8FB0" stroke="#243352" stroke-width="3"/><path d="M12 18l-2-8 8 4zM36 18l2-8-8 4z" fill="#FF8FB0" stroke="#243352" stroke-width="3" stroke-linejoin="round"/><ellipse cx="24" cy="31" rx="7" ry="5" fill="#FFC1D6" stroke="#243352" stroke-width="2.5"/><circle cx="21.5" cy="31" r="1.2" fill="#243352"/><circle cx="26.5" cy="31" r="1.2" fill="#243352"/><circle cx="16" cy="25" r="2" fill="#243352"/><circle cx="32" cy="25" r="2" fill="#243352"/><rect x="20" y="14" width="8" height="3" rx="1.5" fill="#243352"/>',
+    6: '<circle cx="24" cy="24" r="18" fill="#fff" stroke="#243352" stroke-width="3"/><circle cx="24" cy="24" r="12" fill="#FF7AA8" stroke="#243352" stroke-width="3"/><circle cx="24" cy="24" r="5.5" fill="#FFC247" stroke="#243352" stroke-width="3"/>'
+  };
+  var META = {
+    1: { name: 'Bakteri Membelah', fn: 'N = 2<sup>x</sup>', desc: 'Bip membelah jadi dua tiap menit. Berapa jumlahnya nanti?', color: '#FF9DBB' },
+    2: { name: 'Pesta Jamur', fn: 'N = 2 · 3<sup>x</sup>', desc: 'Jamur jadi 3 kali lipat tiap hari. Mulai dari 2 jamur.', color: '#FFD27A' },
+    3: { name: 'Kopi dan Kafein', fn: 'M = 200 · (½)<sup>x</sup>', desc: 'Kafein di tubuh tinggal separuh tiap 5 jam. Grafiknya turun!', color: '#9ADBF7' },
+    4: { name: 'Celengan Ajaib', fn: 'M = M<sub>0</sub>(1 + r)<sup>t</sup>', desc: 'Bunga ikut berbunga. Lihat dua menara uang tumbuh.', color: '#B7B2FF' },
+    6: { name: 'Pencocok Kurva', fn: 'y = a · b<sup>x</sup>', desc: 'Jadi detektif! Atur a dan b agar kurva lewat semua bintang.', color: '#FFB59B' }
+  };
+  var INTRO = {
+    1: { story: 'Di lab ini hidup bakteri kecil bernama Bip. Bip bisa membelah diri jadi dua. Tiap 1 menit, <b>setiap</b> bakteri membelah jadi dua bakteri baru.',
+      steps: ['Klik petri dish atau tombol pink untuk membelah.', 'Tebak dulu: berapa jumlah bakteri sesudahnya?', 'Susun bakteri jadi grafik, lalu sentuh kolomnya untuk membaca angka.'],
+      words: [['Membelah', 'Satu bakteri menjadi dua.'], ['Dikali 2', 'Jumlahnya dibuat 2 kali lebih banyak. Contoh: 4 menjadi 8.'], ['Grafik', 'Gambar yang menunjukkan hubungan dua angka, di sini menit dan jumlah bakteri.']] },
+    2: { story: 'Ada jamur ajaib di petak biakan! Awalnya hanya <b>2 jamur</b>. Tiap hari, setiap jamur tumbuh menjadi <b>3 jamur</b>, jadi jumlahnya 3 kali lipat.',
+      steps: ['Tekan &quot;Hari berikutnya&quot; dan tebak jumlah jamurnya.', 'Perhatikan garis hitungan kuning di atas gambar.', 'Tekan &quot;Bandingkan&quot; untuk melihat pertumbuhan ×2. Mana yang lebih cepat?'],
+      words: [['Jumlah awal', 'Banyaknya jamur di hari ke-0. Di sini 2.'], ['Pengali', 'Angka yang dikalikan tiap hari. Di sini 3.'], ['Kali lipat', 'Jadi sekian kali lebih banyak. 3 kali lipat artinya dikali 3.']] },
+    3: { story: 'Kamu minum kopi yang berisi <b>200 mg</b> kafein. Tubuhmu membuang kafein pelan-pelan: tiap <b>5 jam</b>, sisanya tinggal <b>setengah</b>.',
+      steps: ['Tekan &quot;Tunggu 5 jam&quot; dan tebak sisa kafeinnya.', 'Lihat titik-titik kafein di cangkir yang makin sedikit.', 'Sentuh grafik untuk membaca sisa kafein di jam tertentu.'],
+      words: [['Waktu paruh', 'Waktu sampai jumlahnya tinggal separuh. Di sini 5 jam.'], ['Meluruh', 'Terus mengecil. Grafiknya turun.'], ['mg', 'Miligram, satuan berat yang sangat kecil.']] },
+    4: { story: 'Kamu menabung <b>Rp1.000.000</b> di celengan ajaib. Tiap tahun, bank memberi bunga <b>10%</b>. Ada dua cara menghitung bunga, dan kamu akan melihat mana yang lebih menguntungkan.',
+      steps: ['Tekan &quot;+1 tahun&quot; dan tebak saldo majemuknya.', 'Bandingkan menara emas (majemuk) dengan menara perak (tunggal).', 'Geser slider bunga dan lihat jaraknya berubah.'],
+      words: [['Bunga majemuk', 'Bunga ikut mendapat bunga. Saldo baru = saldo lama × 1,1.'], ['Bunga tunggal', 'Bunga selalu dihitung dari uang awal saja.'], ['Saldo', 'Jumlah uang di tabungan sekarang.']] },
+    6: { story: 'Sekarang kamu jadi <b>detektif kurva</b>! Ada bintang-bintang emas di grafik. Atur <b>a</b> dan <b>b</b> supaya kurva pink lewat tepat di semua bintang.',
+      steps: ['Lihat bintang pertama (x = 0). Nilai y-nya sama dengan a.', 'Lihat bintang kedua (x = 1). Bagilah y-nya dengan y bintang pertama untuk mendapat b.', 'Tekan &quot;Periksa!&quot;. Kalau belum pas, kamu akan dapat petunjuk.'],
+      words: [['a', 'Titik awal: nilai y saat x = 0.'], ['b', 'Pengali tiap langkah x. Cari dengan y(1) ÷ y(0).'], ['Tumbuh atau meluruh', 'b lebih dari 1 berarti naik. b di antara 0 dan 1 berarti turun.']] }
+  };
+  var Q = {
+    1: [
+      { q: 'Bip mulai dari 1 sel dan membelah jadi dua tiap menit. Berapa bakteri setelah 6 menit?', o: ['12', '32', '64', '128'], a: 2, h: 'Tulis polanya: 1, 2, 4, 8, ... terus dikali 2.', e: 'Dikali 2 sebanyak 6 kali: 2 × 2 × 2 × 2 × 2 × 2 = 2<sup>6</sup> = 64.' },
+      { q: 'Kalau tiap menit hanya ditambah 2, setelah 4 menit ada 1 + 2 + 2 + 2 + 2 = 9. Kalau dikali 2, setelah 4 menit ada berapa?', o: ['8', '9', '16', '32'], a: 2, h: 'Pola: 1, 2, 4, 8, ... sampai menit ke-4.', e: '2<sup>4</sup> = 16. Dikali 2 jauh lebih cepat daripada ditambah 2.' },
+      { q: 'Kenapa grafik bakteri makin lama makin curam?', o: ['Karena bakterinya makin cepat berlari', 'Karena yang membelah makin banyak, jadi tambahannya makin besar', 'Karena petri dish makin kecil', 'Karena grafiknya salah gambar'], a: 1, h: '1 bakteri membelah jadi 2. Tapi 100 bakteri membelah jadi berapa?', e: 'Makin banyak bakteri, makin banyak yang membelah. Itu ciri pertumbuhan eksponen.' }
+    ],
+    2: [
+      { q: 'Awalnya 2 jamur. Tiap hari jadi 3 kali lipat. Berapa jamur di hari ke-3?', o: ['18', '27', '54', '162'], a: 2, h: 'Mulai dari 2, lalu kali 3 sebanyak tiga kali.', e: '2 × 3 × 3 × 3 = 54.' },
+      { q: 'Pada N = 2 · 3<sup>x</sup>, angka 2 di depan artinya...', o: ['pengali tiap hari', 'jumlah jamur di awal', 'banyaknya hari', 'jumlah jamur di akhir'], a: 1, h: 'Lihat hari ke-0 di grafik. Berapa jamurnya?', e: 'Di hari ke-0 belum ada perkalian, jadi jumlahnya masih 2. Itu jumlah awal.' },
+      { q: 'Di hari ke-4, jamur yang ×3 ada 162. Jamur yang ×2 (juga mulai dari 2) ada berapa?', o: ['16', '32', '64', '8'], a: 1, h: 'Mulai dari 2, lalu kali 2 sebanyak 4 kali.', e: '2 × 2 × 2 × 2 × 2 = 32. Pengali yang lebih besar membuat grafik jauh lebih curam.' }
+    ],
+    3: [
+      { q: 'Kafein 200 mg tinggal setengah tiap 5 jam. Berapa sisanya setelah 15 jam?', o: ['100 mg', '50 mg', '25 mg', '0 mg'], a: 2, h: '15 jam itu ada berapa kali 5 jam?', e: '15 jam = 3 kali waktu paruh. 200 → 100 → 50 → 25.' },
+      { q: 'Supaya jumlahnya mengecil terus, pengalinya harus...', o: ['lebih dari 1', 'pecahan di antara 0 dan 1, misalnya ½', 'sama dengan 1', 'angka negatif'], a: 1, h: 'Dikali 2 membuatnya besar. Dikali apa supaya jadi kecil?', e: 'Dikali ½ berarti tinggal separuh, jadi nilainya terus mengecil.' },
+      { q: 'Kalau kafein terus dibagi dua, apakah bisa benar-benar habis (tepat 0)?', o: ['Ya, setelah 30 jam', 'Tidak, tinggal makin sedikit tapi tidak pernah tepat 0', 'Ya, setelah 100 jam', 'Tidak, malah naik lagi'], a: 1, h: 'Bisakah setengah dari sesuatu menjadi nol?', e: 'Dibagi dua terus: 3, 1,5, 0,75, ... selalu masih ada sisa. Grafiknya mendekati garis 0 tapi tidak menyentuhnya.' }
+    ],
+    4: [
+      { q: 'Tabungan Rp1.000.000, bunga majemuk 10% per tahun. Berapa setelah 2 tahun?', o: ['Rp1.200.000', 'Rp1.210.000', 'Rp1.100.000', 'Rp1.221.000'], a: 1, h: 'Tiap tahun saldo dikali 1,1.', e: 'Tahun 1: 1.000.000 × 1,1 = 1.100.000. Tahun 2: 1.100.000 × 1,1 = 1.210.000.' },
+      { q: 'Apa beda bunga majemuk dengan bunga tunggal?', o: ['Majemuk selalu lebih kecil', 'Pada majemuk, bunga ikut mendapat bunga', 'Keduanya selalu sama', 'Tunggal naik lebih cepat'], a: 1, h: 'Ingat dua menara tadi. Mana yang makin tinggi?', e: 'Bunga majemuk dihitung dari saldo terbaru (termasuk bunga sebelumnya), jadi grafiknya melengkung naik. Bunga tunggal lurus.' },
+      { q: 'Bunga 5% per tahun. Tiap tahun saldo dikali berapa?', o: ['0,05', '1,05', '5', '1,5'], a: 1, h: 'Saldo lama tetap ada (itu 1), lalu ditambah bunganya.', e: 'Saldo lama (1) ditambah bunga (0,05) = 1,05. Pengalinya lebih dari 1, jadi saldo tumbuh.' }
+    ],
+
+  };
+  var SUM = {
+    1: ['Membelah tiap menit artinya dikali 2, bukan ditambah 2.', 'Perkalian yang diulang ditulis dengan pangkat: 2 × 2 × 2 = 2<sup>3</sup>.', 'Grafiknya melengkung naik makin curam.'],
+    2: ['Angka di depan (2) adalah jumlah awal.', 'Angka yang dipangkatkan (3) adalah pengali tiap hari.', 'Pengali lebih besar membuat grafik lebih curam.'],
+    3: ['Kalau pengalinya pecahan di antara 0 dan 1, nilainya terus mengecil.', 'Waktu paruh: tiap selang waktu yang sama, nilainya tinggal separuh.', 'Grafiknya turun cepat lalu melandai, dan tidak pernah menyentuh nol.'],
+    4: ['Bunga majemuk berarti bunga ikut mendapat bunga.', 'Pengalinya adalah 1 + bunga. Bunga 10% berarti pengali 1,1.', 'Awalnya mirip bunga tunggal, tapi makin lama makin jauh lebih besar.'],
+    6: ['a adalah titik awal: nilai y saat x = 0.', 'b adalah y(1) ÷ y(0): pengali tiap langkah.', 'b lebih dari 1 berarti naik. b di antara 0 dan 1 berarti turun.']
+  };
+  var GLOSS = [
+    ['Pangkat (eksponen)', 'Cara singkat menulis perkalian yang diulang. 2 × 2 × 2 = 2<sup>3</sup>.'],
+    ['Pengali (b)', 'Angka yang dikalikan berulang-ulang pada tiap langkah.'],
+    ['Jumlah awal (a)', 'Banyaknya di awal, sebelum waktu berjalan (saat x = 0).'],
+    ['Tumbuh', 'Angkanya makin besar. Grafiknya naik. Terjadi kalau b lebih dari 1.'],
+    ['Meluruh', 'Angkanya makin kecil. Grafiknya turun. Terjadi kalau b di antara 0 dan 1.'],
+    ['Grafik', 'Gambar yang menunjukkan hubungan dua angka. Tiap titik punya nilai x dan y.'],
+    ['Sumbu x dan y', 'x adalah garis mendatar (di sini: waktu). y adalah garis tegak (di sini: jumlah).'],
+    ['Kali lipat', 'Jadi sekian kali lebih banyak. 3 kali lipat artinya dikali 3.'],
+    ['Waktu paruh', 'Waktu yang dibutuhkan sampai jumlahnya tinggal separuh.'],
+    ['Bunga majemuk', 'Bunga yang ikut mendapat bunga, karena dihitung dari saldo terbaru.'],
+    ['Bunga tunggal', 'Bunga yang selalu dihitung dari uang awal saja, jadi naiknya lurus.']
+  ];
+
+  /* ===== bagian 2: kanvas, level 2-5 ===== */
+  var S = mkCanvas('sceneStage', 'cvScene');
+  var C = mkCanvas('chartStage', 'cvChart');
+  var HUB = mkCanvas('hubStage', 'cvHub');
+  var cur = null, floaters = [], lastT = performance.now();
+
+  function say(t, mood) { $('gnote').textContent = t; K.mascot('mascotG', mood || 'normal'); }
+  function setStats(a) { for (var i = 0; i < 3; i++) { $('sl' + (i + 1)).textContent = a[i][0]; $('sv' + (i + 1)).innerHTML = a[i][1]; } }
+  function setCalc(h) { $('calc').innerHTML = '<small>Hitungannya</small>' + h; }
+  function mis() { if (cur) K.renderMission($('mission'), cur.mission()); }
+  function setQuiz(ok, hint) {
+    var b = $('bQuiz');
+    if (b) { b.disabled = !ok; b.classList.toggle('pulse', ok); }
+    $('hint').textContent = hint || '';
+  }
+  function floater(txt) { floaters.push({ txt: txt, y: 0.16, life: 1 }); }
+  function ctl(extra, noQuiz) {
+    return extra + '<button class="btn" id="bReset" type="button">Mulai ulang</button>' +
+      (noQuiz ? '' : '<button class="btn" id="bQuiz" type="button" style="--bg: var(--grape)" disabled>Tantangan kuis</button>') +
+      '<p class="hint" id="hint"></p>';
+  }
+  function slider(id, label, min, max, step, val) {
+    return '<div class="sl"><label for="' + id + '">' + label + '</label><input id="' + id + '" type="range" min="' + min + '" max="' + max + '" step="' + step + '" value="' + val + '"><output id="o' + id.slice(1) + '" for="' + id + '"></output></div>';
+  }
+  var done = function (n) { return K.save.data.stars[n] > 0; };
+
+  /* ================= LEVEL 2: Pesta Jamur  N = 2 · 3^x ================= */
+  var Lv2 = (function () {
+    var MAX = 5, x, prev, stepAt, cmp, ax, cmpUsed;
+    var T = niceTicks(2 * Math.pow(3, MAX), 3);
+    var count = function (k) { return 2 * Math.pow(3, k); };
+    function mush(ctx, cx, cy, s, col) {
+      ctx.lineWidth = Math.max(1, s * 0.05); ctx.strokeStyle = INK; ctx.lineJoin = 'round';
+      rr(ctx, cx - s * .17, cy - s * .02, s * .34, s * .36, s * .12); ctx.fillStyle = '#FFF8E8'; ctx.fill(); ctx.stroke();
+      ctx.beginPath(); ctx.ellipse(cx, cy + s * .02, s * .5, s * .42, 0, Math.PI, TAU); ctx.closePath();
+      ctx.fillStyle = col; ctx.fill(); ctx.stroke();
+      if (s > 12) {
+        ctx.fillStyle = 'rgba(255,255,255,.85)';
+        ctx.beginPath(); ctx.arc(cx - s * .2, cy - s * .2, s * .07, 0, TAU); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + s * .12, cy - s * .27, s * .06, 0, TAU); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + s * .28, cy - s * .1, s * .045, 0, TAU); ctx.fill();
+      }
+      if (s >= 24) {
+        ctx.fillStyle = INK;
+        ctx.beginPath(); ctx.arc(cx - s * .065, cy + s * .13, s * .03, 0, TAU); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + s * .065, cy + s * .13, s * .03, 0, TAU); ctx.fill();
+        ctx.lineWidth = Math.max(1, s * .025); ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.arc(cx, cy + s * .16, s * .05, Math.PI * .15, Math.PI * .85); ctx.stroke();
+      }
+    }
+    return {
+      id: 2, probed: false,
+      controls: ctl('<button class="btn" id="bStep" type="button" style="--bg: var(--pink)"></button><button class="btn" id="bCmp" type="button" style="--bg: var(--sky)">Bandingkan dengan ×2</button>'),
+      aria: ['Petak biakan berisi jamur lucu yang jumlahnya jadi tiga kali lipat tiap hari', 'Grafik jumlah jamur N = 2 kali 3 pangkat x'],
+      init: function () {
+        $('bStep').onclick = function () { K.ask(Lv2.predict(), Lv2.step); };
+        $('bCmp').onclick = function () {
+          cmp = !cmp; if (cmp) cmpUsed = true;
+          say(cmp ? 'Garis biru adalah jamur yang ×2 (juga mulai dari 2). Di hari ke-5 hanya ada 64, sedangkan yang ×3 ada 486. Pengali lebih besar menang telak!' : 'Perbandingan dimatikan.', cmp ? 'wow' : 'normal');
+          Lv2.refresh();
+        };
+        this.reset();
+      },
+      reset: function () {
+        x = 0; ax = 0; prev = 2; stepAt = -1e9; cmp = false; cmpUsed = false; Lv2.probed = false;
+        say('Mulai dengan 2 jamur. Tiap hari, setiap jamur tumbuh jadi 3. Tekan tombol pink!', 'happy');
+        Lv2.refresh();
+      },
+      predict: function () {
+        if (x >= MAX) return null;
+        var n = count(x), nx = n * 3;
+        return {
+          q: 'Sekarang ada ' + nf(n) + ' jamur. Besok, tiap jamur tumbuh jadi 3. Berapa jumlah jamur besok?',
+          opts: K.mkOpts(nx, [n + 3, n * 2], function (v) { return nf(v) + ' jamur'; }),
+          why: nf(n) + ' × 3 = ' + nf(nx) + '. Tiap jamur menjadi 3, jadi jumlahnya dikali 3 (bukan ditambah 3).'
+        };
+      },
+      step: function () {
+        if (x >= MAX) return;
+        prev = count(x); x++; stepAt = performance.now();
+        floater('×3'); pop(280 + x * 70);
+        say('Hari ke-' + x + ': ' + nf(prev) + ' jamur × 3 = ' + nf(count(x)) + ' jamur. Lihat jamur baru bermunculan!', x >= 4 ? 'wow' : 'happy');
+        Lv2.refresh();
+      },
+      refresh: function () {
+        setStats([['Hari ke-', x], ['Jumlah jamur', nf(count(x))], ['Cara menulis', '2·3<sup>' + x + '</sup>']]);
+        setCalc(x === 0 ? 'Mulai dari 2 jamur' : chain(2, 3, x, 3) + ' = ' + nf(count(x)) + ' jamur');
+        $('bStep').textContent = x >= MAX ? 'Petak penuh' : 'Hari berikutnya ×3';
+        $('bStep').disabled = x >= MAX;
+        $('bCmp').textContent = cmp ? 'Sembunyikan ×2' : 'Bandingkan dengan ×2';
+        setQuiz(x >= 4, x < 4 ? 'Tumbuhkan jamur sampai hari ke-4 untuk membuka kuis.' : 'Siap! Boleh coba misi bonus dulu, atau langsung kuis.');
+        mis();
+      },
+      mission: function () { return [{ t: 'Tumbuhkan sampai hari ke-4', done: x >= 4 }, { t: 'Bandingkan dengan ×2', bonus: true, done: cmpUsed }, { t: 'Sentuh grafik', bonus: true, done: Lv2.probed }, { t: 'Jawab kuis', done: done(2) }]; },
+      update: function (dt) { ax += (x - ax) * (1 - Math.exp(-dt * (reduce ? 40 : 4))); },
+      scene: function (c, now) {
+        var ctx = c.ctx, W = c.W, H = c.H, p = 14;
+        rr(ctx, p, p, W - 2 * p, H - 2 * p, 22); ctx.fillStyle = '#FFF4D6'; ctx.fill(); ctx.lineWidth = 4; ctx.strokeStyle = INK; ctx.stroke();
+        var n = count(x), ip = p + 12, aw = W - 2 * ip, ah = H - 2 * ip - 8;
+        var cols = Math.max(1, Math.ceil(Math.sqrt(n * aw / ah))), rows = Math.ceil(n / cols);
+        var cell = Math.min(aw / cols, ah / rows, 96), ox = (W - cell * cols) / 2, oy = (H - cell * rows) / 2 + 4;
+        var gen = 0, lim = 2, add = n - prev, delay = add > 0 ? Math.min(30, 800 / add) : 0;
+        for (var i = 0; i < n; i++) {
+          while (i >= lim) { gen++; lim *= 3; }
+          var sc = 1;
+          if (i >= prev && !reduce) { var age = now - stepAt - (i - prev) * delay; sc = age <= 0 ? 0 : clamp(age / 320, 0, 1); sc = 1 + 2.2 * Math.pow(sc - 1, 3) + 1.2 * Math.pow(sc - 1, 2); if (sc < 0) sc = 0; }
+          if (sc <= 0.01) continue;
+          mush(ctx, ox + (i % cols + .5) * cell, oy + (Math.floor(i / cols) + .5) * cell - cell * .03, cell * .82 * sc, GEN[gen % GEN.length]);
+        }
+      },
+      chart: function () {
+        var f3 = function (t) { return 2 * Math.pow(3, t); }, f2 = function (t) { return 2 * Math.pow(2, t); };
+        var cs = [
+          { fn: f3, from: 0, to: MAX, color: PINK, dash: [7, 7], alpha: .4, width: 3 },
+          { fn: f3, from: 0, to: ax, color: PINK, width: 4.5, halo: true }
+        ], leg = [{ color: PINK, label: 'jamur ×3: N = 2·3ˣ' }], pts = [];
+        if (cmp) {
+          cs.push({ fn: f2, from: 0, to: MAX, color: SKY, dash: [7, 7], alpha: .4, width: 3 });
+          cs.push({ fn: f2, from: 0, to: ax, color: SKY, width: 4.5, halo: true });
+          leg.push({ color: SKY, label: 'jamur ×2 (bandingan)' });
+        }
+        for (var k = 0; k <= x; k++) if (k <= ax + .02) pts.push({ x: k, y: count(k), label: nf(count(k)) });
+        return {
+          xmin: 0, xmax: MAX, ymin: 0, ymax: T.max, xticks: range(0, MAX), yticks: T.ticks, xlabel: 'hari ke-x', ylabel: 'jumlah jamur', curves: cs, points: pts, legend: leg,
+          probe: { xs: range(0, MAX), y: count, text: function (k) { return 'Hari ' + k + ': ' + nf(count(k)) + ' jamur' + (k > x ? ' (ramalan)' : ''); } }
+        };
+      }
+    };
+  })();
+
+  /* ================= LEVEL 3: Kopi dan Kafein  M = 200 · (1/2)^x ================= */
+  var Lv3 = (function () {
+    var MAX = 6, x, ah, deathAt, dots = [];
+    var dotsFor = function (k) { return Math.max(1, Math.round(64 / Math.pow(2, k))); };
+    var mg = function (k) { return 200 / Math.pow(2, k); };
+    (function () {
+      for (var gy = 0; gy < 8; gy++) for (var gx = 0; gx < 8; gx++) dots.push({ u: (gx + .5 + rnd(-.3, .3)) / 8, v: (gy + .5 + rnd(-.3, .3)) / 8, w: Math.random() * TAU });
+      for (var i = dots.length - 1; i > 0; i--) { var j = (Math.random() * (i + 1)) | 0, t = dots[i]; dots[i] = dots[j]; dots[j] = t; }
+    })();
+    return {
+      id: 3, probed: false,
+      controls: ctl('<button class="btn" id="bStep" type="button" style="--bg: var(--sky)"></button>'),
+      aria: ['Cangkir kopi berisi titik kafein yang jumlahnya separuh tiap lima jam, dengan jam dinding', 'Grafik peluruhan kafein M = 200 kali setengah pangkat x'],
+      init: function () { $('bStep').onclick = function () { K.ask(Lv3.predict(), Lv3.step); }; this.reset(); },
+      reset: function () {
+        x = 0; ah = 0; deathAt = []; Lv3.probed = false;
+        say('Kamu baru minum kopi berisi 200 mg kafein. Tubuhmu membuang separuhnya tiap 5 jam. Tekan tombol biru!', 'happy');
+        Lv3.refresh();
+      },
+      predict: function () {
+        if (x >= MAX) return null;
+        var m = mg(x), nx = m / 2;
+        return {
+          q: 'Sekarang ada ' + auto(m) + ' mg kafein. Setelah 5 jam, tinggal setengahnya. Berapa sisanya?',
+          opts: K.mkOpts(nx, [m * 0.75, m / 4], function (v) { return auto(v) + ' mg'; }),
+          why: 'Setengah dari ' + auto(m) + ' adalah ' + auto(m) + ' ÷ 2 = ' + auto(nx) + '. Dikali ½ sama dengan dibagi 2.'
+        };
+      },
+      step: function () {
+        if (x >= MAX) return;
+        var before = dotsFor(x), now = performance.now();
+        x++;
+        for (var i = dotsFor(x); i < before; i++) deathAt[i] = now;
+        floater('÷2'); pop(520 - x * 50);
+        say('Lewat 5 jam lagi. Sisa kafein tinggal separuhnya: ' + auto(mg(x)) + ' mg.', 'happy');
+        Lv3.refresh();
+      },
+      refresh: function () {
+        setStats([['Jam ke-', 5 * x], ['Sisa kafein (mg)', auto(mg(x))], ['Cara menulis', '200·(½)<sup>' + x + '</sup>']]);
+        setCalc(x === 0 ? 'Mulai dari 200 mg' : chain(200, 0, x, '½') + ' = ' + auto(mg(x)) + ' mg');
+        $('bStep').textContent = x >= MAX ? 'Sudah 30 jam' : 'Tunggu 5 jam';
+        $('bStep').disabled = x >= MAX;
+        setQuiz(x >= 4, x < 4 ? 'Tunggu sampai jam ke-20 untuk membuka kuis.' : 'Lihat grafiknya: turun cepat di awal, lalu landai.');
+        mis();
+      },
+      mission: function () { return [{ t: 'Tunggu sampai jam ke-20', done: x >= 4 }, { t: 'Sentuh grafik untuk membaca nilai', bonus: true, done: Lv3.probed }, { t: 'Jawab kuis', done: done(3) }]; },
+      update: function (dt) { ah += (x - ah) * (1 - Math.exp(-dt * (reduce ? 40 : 4))); },
+      scene: function (c, now) {
+        var ctx = c.ctx, W = c.W, H = c.H, t = now / 1000;
+        var mw = Math.min(W * .5, H * .5), mh = mw * 1.02, x0 = W * .48 - mw / 2, y0 = H * .52 - mh / 2 + 14;
+        ctx.fillStyle = 'rgba(36,51,82,.18)'; ctx.beginPath(); ctx.ellipse(x0 + mw / 2, y0 + mh + 8, mw * .75, mw * .12, 0, 0, TAU); ctx.fill();
+        ctx.fillStyle = '#fff'; ctx.strokeStyle = INK; ctx.lineWidth = 4;
+        ctx.beginPath(); ctx.ellipse(x0 + mw / 2, y0 + mh + 6, mw * .72, mw * .11, 0, 0, TAU); ctx.fill(); ctx.stroke();
+        var hw = mw * .12, hx = x0 + mw, hy = y0 + mh * .48, hr = mh * .2;
+        ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.arc(hx, hy, hr, -Math.PI / 2, Math.PI / 2); ctx.lineWidth = hw + 7; ctx.strokeStyle = INK; ctx.stroke();
+        ctx.beginPath(); ctx.arc(hx, hy, hr, -Math.PI / 2, Math.PI / 2); ctx.lineWidth = hw; ctx.strokeStyle = '#fff'; ctx.stroke();
+        rr(ctx, x0, y0, mw, mh, mw * .16); ctx.fillStyle = '#fff'; ctx.fill(); ctx.lineWidth = 4; ctx.strokeStyle = INK; ctx.stroke();
+        var ix = x0 + mw * .08, iy = y0 + mh * .14, iw = mw * .84, ih = mh * .78;
+        rr(ctx, ix, iy, iw, ih, mw * .1); ctx.fillStyle = '#A7653F'; ctx.fill();
+        ctx.save(); rr(ctx, ix, iy, iw, ih, mw * .1); ctx.clip();
+        ctx.fillStyle = 'rgba(255,255,255,.16)'; ctx.fillRect(ix, iy, iw, ih * .16);
+        var alive = dotsFor(x), base = Math.min(iw, ih) / 8 * .36 * (1 + x * .12);
+        for (var i = 0; i < 64; i++) {
+          var d = dots[i], px = ix + d.u * iw, py = iy + d.v * ih + (reduce ? 0 : Math.sin(t * 2 + d.w) * 3), a = 1, sc = 1;
+          if (i >= alive) {
+            var age = deathAt[i] == null ? 99 : (now - deathAt[i]) / 700;
+            if (age >= 1) continue;
+            a = 1 - age; py -= age * ih * .5; sc = 1 + age * .5;
+          }
+          ctx.globalAlpha = a;
+          disc(ctx, px, py, base * sc, '#FFB84D', 2);
+          disc(ctx, px - base * .3 * sc, py - base * .3 * sc, base * .22 * sc, 'rgba(255,255,255,.8)');
+          ctx.globalAlpha = 1;
+        }
+        ctx.restore();
+        ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(255,255,255,.8)';
+        for (var s = 0; s < 3; s++) {
+          var sx = x0 + mw * (.28 + s * .22), wob = reduce ? 0 : Math.sin(t * 2 + s) * 5;
+          ctx.beginPath(); ctx.moveTo(sx, y0 - 6); ctx.bezierCurveTo(sx - 9 + wob, y0 - 22, sx + 9 - wob, y0 - 34, sx + wob, y0 - 50); ctx.stroke();
+        }
+        /* jam dinding: jarumnya berputar 5 jam tiap langkah */
+        var cr = Math.min(W, H) * .085, ccx = W * .15, ccy = H * .17;
+        disc(ctx, ccx, ccy, cr, '#fff', 4);
+        ctx.lineWidth = 2; ctx.strokeStyle = INK;
+        for (var h = 0; h < 12; h++) { var aa = h / 12 * TAU; ctx.beginPath(); ctx.moveTo(ccx + Math.sin(aa) * cr * .78, ccy - Math.cos(aa) * cr * .78); ctx.lineTo(ccx + Math.sin(aa) * cr * .92, ccy - Math.cos(aa) * cr * .92); ctx.stroke(); }
+        var ang = ah * 5 / 12 * TAU;
+        ctx.lineWidth = 4; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(ccx, ccy); ctx.lineTo(ccx + Math.sin(ang) * cr * .62, ccy - Math.cos(ang) * cr * .62); ctx.stroke();
+        disc(ctx, ccx, ccy, 3.5, INK);
+        ctx.font = '800 ' + Math.max(12, Math.round(cr * .42)) + 'px ' + DISPLAY; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = INK;
+        ctx.fillText(5 * x + ' jam', ccx, ccy + cr + 16);
+        ctx.font = '800 ' + Math.round(Math.min(W, H) * .045) + 'px ' + DISPLAY;
+        ctx.fillText('1 titik oranye = sedikit kafein', W / 2, H - 20);
+      },
+      chart: function () {
+        var f = function (t) { return 200 * Math.pow(.5, t / 5); }, pts = [], xs = [0, 5, 10, 15, 20, 25, 30];
+        for (var k = 0; k <= x; k++) pts.push({ x: 5 * k, y: mg(k), label: auto(mg(k)) });
+        return {
+          xmin: 0, xmax: 30, ymin: 0, ymax: 200, xticks: xs, yticks: [0, 50, 100, 150, 200],
+          xlabel: 'jam setelah minum kopi', ylabel: 'kafein dalam tubuh (mg)',
+          curves: [{ fn: f, from: 0, to: 30, color: SKY, dash: [7, 7], alpha: .45, width: 3 }, { fn: f, from: 0, to: 5 * ah, color: SKY, width: 4.5, halo: true }],
+          points: pts, legend: [{ color: SKY, label: 'turun separuh tiap 5 jam' }],
+          probe: { xs: xs, y: f, text: function (h) { return 'Jam ' + h + ': ' + auto(f(h)) + ' mg' + (h > 5 * x ? ' (ramalan)' : ''); } }
+        };
+      }
+    };
+  })();
+
+  /* ================= LEVEL 4: Celengan Ajaib  M = M0 (1+r)^t ================= */
+  var Lv4 = (function () {
+    var M0 = 1000000, HOR = 20, r, yr, ayr, hc, hs, bounce, coins, rateUsed;
+    var comp = function (t) { return M0 * Math.pow(1 + r, t); };
+    var simp = function (t) { return M0 * (1 + r * t); };
+    function pig(ctx, cx, cy, s) {
+      ctx.lineWidth = 4; ctx.strokeStyle = INK; ctx.lineJoin = 'round';
+      [-1, 1].forEach(function (d) {
+        ctx.beginPath(); ctx.moveTo(cx + d * s * .26, cy - s * .3); ctx.lineTo(cx + d * s * .44, cy - s * .62); ctx.lineTo(cx + d * s * .08, cy - s * .44); ctx.closePath();
+        ctx.fillStyle = '#FF8FB0'; ctx.fill(); ctx.stroke();
+        rr(ctx, cx + d * s * .26 - s * .075, cy + s * .3, s * .15, s * .2, s * .05); ctx.fill(); ctx.stroke();
+      });
+      ctx.beginPath(); ctx.ellipse(cx, cy, s * .5, s * .42, 0, 0, TAU); ctx.fillStyle = '#FF8FB0'; ctx.fill(); ctx.stroke();
+      ctx.fillStyle = 'rgba(255,255,255,.35)'; ctx.beginPath(); ctx.ellipse(cx - s * .22, cy - s * .2, s * .12, s * .06, -.5, 0, TAU); ctx.fill();
+      rr(ctx, cx - s * .1, cy - s * .42, s * .2, s * .05, s * .025); ctx.fillStyle = INK; ctx.fill();
+      ctx.beginPath(); ctx.ellipse(cx, cy + s * .1, s * .2, s * .14, 0, 0, TAU); ctx.fillStyle = '#FFC1D6'; ctx.fill(); ctx.lineWidth = 3; ctx.stroke();
+      disc(ctx, cx - s * .07, cy + s * .1, s * .025, INK); disc(ctx, cx + s * .07, cy + s * .1, s * .025, INK);
+      disc(ctx, cx - s * .24, cy - s * .08, s * .045, INK); disc(ctx, cx + s * .24, cy - s * .08, s * .045, INK);
+      ctx.fillStyle = 'rgba(255,90,130,.4)'; ctx.beginPath(); ctx.ellipse(cx - s * .36, cy + s * .06, s * .06, s * .04, 0, 0, TAU); ctx.fill(); ctx.beginPath(); ctx.ellipse(cx + s * .36, cy + s * .06, s * .06, s * .04, 0, 0, TAU); ctx.fill();
+    }
+    function tower(ctx, cx, yb, w, h, fill, label, val) {
+      h = Math.max(h, 4);
+      rr(ctx, cx - w / 2, yb - h, w, h, Math.min(10, h / 2)); ctx.fillStyle = fill; ctx.fill(); ctx.lineWidth = 4; ctx.strokeStyle = INK; ctx.stroke();
+      ctx.fillStyle = 'rgba(255,255,255,.4)'; ctx.fillRect(cx - w / 2 + 6, yb - h + 8, 6, Math.max(0, h - 16));
+      ctx.beginPath(); ctx.ellipse(cx, yb - h, w / 2, w * .13, 0, 0, TAU); ctx.fillStyle = 'rgba(255,255,255,.55)'; ctx.fill(); ctx.stroke();
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = '800 ' + Math.max(12, Math.min(16, w * .22)) + 'px ' + DISPLAY;
+      ctx.lineWidth = 4; ctx.strokeStyle = PAPER; ctx.strokeText(val, cx, yb - h - w * .2); ctx.fillStyle = INK; ctx.fillText(val, cx, yb - h - w * .2);
+      ctx.fillText(label, cx, yb + 18);
+    }
+    return {
+      id: 4, probed: false,
+      controls: ctl(slider('sR', 'Bunga', 5, 20, 5, 10) + '<button class="btn" id="bY1" type="button" style="--bg: var(--pink)">+1 tahun</button><button class="btn" id="bY5" type="button" style="--bg: var(--sun)">+5 tahun</button>'),
+      aria: ['Celengan babi dan dua menara koin. Menara emas adalah bunga majemuk, menara perak bunga tunggal', 'Grafik tabungan bunga majemuk dibandingkan bunga tunggal selama 20 tahun'],
+      init: function () {
+        $('bY1').onclick = function () { K.ask(Lv4.predict(), function () { Lv4.step(1); }); };
+        $('bY5').onclick = function () { Lv4.step(5); };
+        $('sR').oninput = function () {
+          r = +this.value / 100; rateUsed = true; $('oR').textContent = this.value + '% / th';
+          say('Bunga ' + this.value + '% per tahun, jadi pengalinya ' + auto(1 + r) + '. Lihat jarak menara emas dan perak berubah.', 'think');
+          Lv4.refresh();
+        };
+        this.reset();
+      },
+      reset: function () {
+        r = +$('sR').value / 100; $('oR').textContent = $('sR').value + '% / th';
+        yr = 0; ayr = 0; hc = 0; hs = 0; bounce = 0; coins = []; rateUsed = false; Lv4.probed = false;
+        say('Kamu menabung Rp1.000.000. Menara emas: bunga ikut berbunga (majemuk). Menara perak: bunga hanya dari uang awal (tunggal).', 'happy');
+        Lv4.refresh();
+      },
+      predict: function () {
+        if (yr >= HOR) return null;
+        var nx = comp(yr + 1), fm = function (v) { return 'Rp' + nf(v); };
+        return {
+          q: 'Saldo majemuk sekarang Rp' + nf(comp(yr)) + '. Bunga ' + Math.round(r * 100) + '% ditambahkan. Berapa saldo tahun depan?',
+          opts: K.mkOpts(nx, [simp(yr + 1), comp(yr) * (1 + 2 * r)], fm),
+          why: 'Saldo dikali ' + auto(1 + r) + ': Rp' + nf(comp(yr)) + ' × ' + auto(1 + r) + ' = Rp' + nf(nx) + '. Bunga dihitung dari saldo terbaru, termasuk bunga sebelumnya.'
+        };
+      },
+      step: function (n) {
+        if (yr >= HOR) return;
+        var now = performance.now();
+        yr = Math.min(HOR, yr + n); bounce = 1; pop(300 + yr * 15);
+        for (var i = 0; i < 3; i++) coins.push({ t0: now + i * 130 });
+        floater('+' + n + ' tahun');
+        say('Tahun ke-' + yr + ': majemuk Rp' + nf(comp(yr)) + ', tunggal Rp' + nf(simp(yr)) + '. Selisihnya Rp' + nf(comp(yr) - simp(yr)) + '.', 'happy');
+        Lv4.refresh();
+      },
+      refresh: function () {
+        setStats([['Tahun ke-', yr], ['Saldo majemuk', 'Rp ' + nf(comp(yr) / 1e6, 2) + ' jt'], ['Saldo tunggal', 'Rp ' + nf(simp(yr) / 1e6, 2) + ' jt']]);
+        $('sv2').className = 'val xs'; $('sv3').className = 'val xs';
+        setCalc(yr === 0 ? 'Mulai dari 1 juta' : chain('1 juta', 0, yr, auto(1 + r)) + ' = ' + nf(comp(yr) / 1e6, 2) + ' juta');
+        $('bY1').disabled = yr >= HOR; $('bY5').disabled = yr >= HOR;
+        setQuiz(yr >= 10, yr < 10 ? 'Majukan waktu sampai tahun ke-10 untuk membuka kuis.' : 'Coba ganti bunga dan bandingkan dua menaranya.');
+        mis();
+      },
+      mission: function () { return [{ t: 'Majukan sampai tahun ke-10', done: yr >= 10 }, { t: 'Geser bunga', bonus: true, done: rateUsed }, { t: 'Sentuh grafik', bonus: true, done: Lv4.probed }, { t: 'Jawab kuis', done: done(4) }]; },
+      update: function (dt) {
+        ayr += (yr - ayr) * (1 - Math.exp(-dt * (reduce ? 40 : 4)));
+        var mx = comp(HOR), k = 1 - Math.exp(-dt * (reduce ? 40 : 5));
+        hc += (comp(yr) / mx - hc) * k; hs += (simp(yr) / mx - hs) * k;
+        bounce = Math.max(0, bounce - dt * 2.2);
+      },
+      scene: function (c, now) {
+        var ctx = c.ctx, W = c.W, H = c.H, yb = H * .84;
+        ctx.fillStyle = '#7BC4B0'; ctx.fillRect(0, yb, W, H - yb);
+        ctx.fillStyle = INK; ctx.fillRect(0, yb, W, 4);
+        var s = Math.min(W * .4, H * .42), px = W * .25, py = yb - s * .55 - Math.abs(Math.sin(bounce * Math.PI * 3)) * s * .14 * bounce;
+        pig(ctx, px, py, s);
+        coins = coins.filter(function (cn) { return now < cn.t0 + 520; });
+        coins.forEach(function (cn) {
+          if (now < cn.t0) return;
+          var p = (now - cn.t0) / 520, y = py - s * 1.25 + p * (s * .8);
+          disc(ctx, px, y, s * .11, '#FFC247', 3); disc(ctx, px, y, s * .055, '#FFE07A', 0);
+        });
+        var tw = Math.min(W * .15, 74), maxH = H * .56;
+        tower(ctx, W * .62, yb, tw, hc * maxH, '#FFC247', 'majemuk', 'Rp ' + nf(comp(yr) / 1e6, 2) + ' jt');
+        tower(ctx, W * .86, yb, tw, hs * maxH, '#D5DCE8', 'tunggal', 'Rp ' + nf(simp(yr) / 1e6, 2) + ' jt');
+      },
+      chart: function () {
+        var T = niceTicks(comp(HOR) / 1e6, 4), pts = [];
+        var fc = function (t) { return comp(t) / 1e6; }, fs = function (t) { return simp(t) / 1e6; };
+        for (var k = 1; k <= yr; k++) if (k <= ayr + .02) pts.push({ x: k, y: fc(k), r: 4, label: k === yr ? nf(fc(k), 2) : null, color: k === yr ? '#fff' : PINK });
+        return {
+          xmin: 0, xmax: HOR, ymin: 0, ymax: T.max, xticks: [0, 5, 10, 15, 20], yticks: T.ticks, yfmt: function (v) { return nf(v, T.step < 1 ? 1 : 0); },
+          xlabel: 'tahun ke-t', ylabel: 'tabungan (juta Rp)',
+          curves: [
+            { fn: fs, from: 0, to: HOR, color: '#7A869E', dash: [7, 7], alpha: .45, width: 3 },
+            { fn: fc, from: 0, to: HOR, color: PINK, dash: [7, 7], alpha: .35, width: 3 },
+            { fn: fs, from: 0, to: ayr, color: '#7A869E', width: 4 },
+            { fn: fc, from: 0, to: ayr, color: PINK, width: 4.5, halo: true }
+          ],
+          points: pts, legend: [{ color: PINK, label: 'majemuk (naik melengkung)' }, { color: '#7A869E', label: 'tunggal (lurus)' }],
+          probe: { xs: range(0, HOR), y: fc, text: function (k) { return 'Tahun ' + k + '\nmajemuk: Rp ' + nf(fc(k), 2) + ' jt\ntunggal: Rp ' + nf(fs(k), 2) + ' jt' + (k > yr ? '\n(ramalan)' : ''); } }
+        };
+      }
+    };
+  })();
+
+  /* ================= LEVEL 6: Pencocok Kurva  y = a · b^x ================= */
+  var Lv6 = (function () {
+    var R = [{ a: 1, b: 2, lock: true }, { a: 3, b: 0.5 }, { a: 2, b: 1.5 }, { a: 4, b: 0.5 }];
+    var ri, att, got, pts, fin;
+    var A = function () { return parseFloat($('sA').value); };
+    var B = function () { return Math.round(parseFloat($('sB').value) * 10) / 10; };
+    var tv = function (k) { return R[ri].a * Math.pow(R[ri].b, k); };
+    function setupRound() {
+      att = 0; got = false;
+      $('sA').value = R[ri].lock ? R[ri].a : 1; $('sB').value = 1; $('sA').disabled = !!R[ri].lock;
+      $('bCheck').textContent = 'Periksa!';
+      $('oA').textContent = auto(A()); $('oB').textContent = auto(B());
+      say(R[ri].lock ? 'Ronde ' + (ri + 1) + ': a sudah dikunci. Geser b sampai kurva pink lewat semua bintang emas.' : 'Ronde ' + (ri + 1) + ': atur a dan b. Petunjuk: bintang di x = 0 memberi tahu nilai a.', 'think');
+      Lv6.refresh();
+    }
+    return {
+      id: 6, probed: false, noScene: true,
+      controls: ctl(slider('sA', 'a', 1, 5, 0.5, 1) + slider('sB', 'b', 0.2, 3, 0.1, 1) + '<button class="btn" id="bCheck" type="button" style="--bg: var(--sun)">Periksa!</button><button class="btn" id="bHint" type="button" style="--bg: var(--sky)">Petunjuk</button>', true),
+      aria: ['', 'Grafik dengan bintang target dan kurva y = a kali b pangkat x yang bisa kamu atur'],
+      init: function () {
+        $('sA').oninput = $('sB').oninput = function () { $('oA').textContent = auto(A()); $('oB').textContent = auto(B()); Lv6.refresh(); };
+        $('bCheck').onclick = function () { Lv6.check(); };
+        $('bHint').onclick = function () {
+          var t = R[ri]; if (fin) return;
+          say('Petunjuk: a sama dengan y di x = 0, yaitu ' + auto(t.a) + '. Untuk b, bagi y di x = 1 (yaitu ' + auto(t.a * t.b) + ') dengan y di x = 0 (yaitu ' + auto(t.a) + '). Hasil baginya adalah b.', 'think');
+        };
+        this.reset();
+      },
+      reset: function () { ri = 0; pts = []; fin = false; Lv6.probed = false; setupRound(); },
+      check: function () {
+        if (fin) { this.reset(); return; }
+        if (got) {
+          if (ri < R.length - 1) { ri++; setupRound(); return; }
+          fin = true;
+          var sum = pts.reduce(function (s, v) { return s + v; }, 0), st = Math.max(1, Math.round(sum / R.length));
+          saveStars(6, st); $('lvStars').innerHTML = K.stars(K.save.data.stars[6]); K.sound.win(); K.confetti(140);
+          say('Semua ronde selesai! Kamu dapat ' + st + ' bintang. Sekarang kamu bisa membaca a dan b dari sebuah grafik eksponen. Hebat!', 'happy');
+          $('bCheck').textContent = 'Main lagi'; Lv6.refresh(); return;
+        }
+        att++;
+        var a = A(), b = B(), t = R[ri];
+        if (Math.abs(a - t.a) < 1e-6 && Math.abs(b - t.b) < 1e-6) {
+          got = true; var st2 = att === 1 ? 3 : att <= 3 ? 2 : 1; pts.push(st2); K.sound.win();
+          say('Pas! y = ' + auto(t.a) + ' · ' + auto(t.b) + 'ˣ. ' + (t.b > 1 ? 'Pengalinya lebih dari 1, jadi grafiknya naik (tumbuh).' : 'Pengalinya di antara 0 dan 1, jadi grafiknya turun (meluruh).') + ' (' + st2 + ' bintang ronde ini)', 'happy');
+          $('bCheck').textContent = ri < R.length - 1 ? 'Ronde berikutnya' : 'Selesai';
+        } else if (Math.abs(a - t.a) > 1e-6) {
+          K.sound.bad();
+          say('Belum pas. Lihat bintang di x = 0: di sana y-nya ' + auto(t.a) + '. Nilai kurva di x = 0 sama dengan a, jadi a harus ' + auto(t.a) + '.', 'sad');
+        } else if (b < t.b) {
+          K.sound.bad(); say('Hampir! Kurvamu terlalu landai di sebelah kanan. Naikkan b sedikit.', 'sad');
+        } else {
+          K.sound.bad(); say('Hampir! Kurvamu terlalu curam. Turunkan b sedikit.', 'sad');
+        }
+        Lv6.refresh();
+      },
+      refresh: function () {
+        var a = A(), b = B(), kind = b > 1 ? 'Tumbuh (naik)' : b < 1 ? 'Meluruh (turun)' : 'Datar';
+        setStats([['Ronde', (fin ? R.length : ri + 1) + '/' + R.length], ['Kurvamu', 'y = ' + auto(a) + '·' + auto(b) + '<sup>x</sup>'], ['Jenisnya', kind]]);
+        $('sv2').className = 'val xs'; $('sv3').className = 'val xs';
+        setCalc('x = 3: ' + chain(auto(a), 0, 3, auto(b)) + ' = ' + auto(a * Math.pow(b, 3)));
+        $('hint').textContent = fin ? '' : 'Percobaan ronde ini: ' + att;
+        mis();
+      },
+      mission: function () { return [{ t: 'Selesaikan ' + R.length + ' ronde', done: fin || done(6) }, { t: 'Sentuh grafik', bonus: true, done: Lv6.probed }]; },
+      update: function () {},
+      scene: function () {},
+      chart: function () {
+        var t = R[ri], mx = Math.max(tv(0), tv(5)) * 1.12, T = niceTicks(mx, 4), a = A(), b = B(), tp = [];
+        for (var k = 0; k <= 5; k++) tp.push({ x: k, y: tv(k), color: SUN, r: 8, label: k === 0 ? '(0, ' + auto(tv(0)) + ')' : k === 1 ? '(1, ' + auto(tv(1)) + ')' : null });
+        return {
+          xmin: 0, xmax: 5, ymin: 0, ymax: T.max, xticks: range(0, 5), yticks: T.ticks, yfmt: function (v) { return nf(v, T.step < 1 ? 1 : 0); },
+          xlabel: 'x', ylabel: 'y',
+          curves: [{ fn: function (u) { return a * Math.pow(b, u); }, from: 0, to: 5, color: PINK, width: 5, halo: true }],
+          points: tp, legend: [{ color: PINK, label: 'kurvamu' }, { color: SUN, label: 'bintang target' }],
+          probe: { xs: range(0, 5), y: tv, text: function (k) { return 'x = ' + k + ': bintang di y = ' + auto(tv(k)); } }
+        };
+      }
+    };
+  })();
+
+  var LEVELS = { 2: Lv2, 3: Lv3, 4: Lv4, 6: Lv6 };
+
+  /* ===== bagian 3: simpan bintang, peta, kuis, bantuan, navigasi, loop ===== */
+  function saveStars(n, s) {
+    if (s > K.save.data.stars[n]) K.save.data.stars[n] = s;
+    K.save.commit(); renderTotal();
+  }
+  function renderTotal() {
+    $('totalStars').innerHTML = K.star(true) + '<span>' + K.total() + '/15</span>';
+  }
+  function nextStep() {
+    var d = K.save.data;
+    var order = [1, 2, 3, 4, 6];
+    for (var i = 0; i < order.length; i++) if (d.stars[order[i]] === 0) return order[i];
+    for (var j = 0; j < order.length; j++) if (d.stars[order[j]] < 3) return order[j];
+    return null;
+  }
+  function hrefOf(n) { return '#level-' + n; }
+
+  /* ---------- peta ---------- */
+  function renderHub() {
+    var d = K.save.data, t = K.total(), nxt = nextStep(), m, h = '';
+    [1, 2, 3, 4, 6].forEach(function (n, index) {
+      m = META[n];
+      var tag = n === nxt ? '<span class="ribbon">' + (d.stars[n] === 0 ? 'Ayo main!' : 'Cari bintang penuh!') + '</span>' : '';
+      var foot = K.stars(d.stars[n]);
+      h += '<a class="lcard" href="' + hrefOf(n) + '" style="--c:' + m.color + '">' + tag +
+        '<svg class="licon" viewBox="0 0 48 48" aria-hidden="true">' + ICONS[n] + '</svg>' +
+        '<span class="lname"><small>Level ' + (n === 6 ? 5 : n) + '</small>' + m.name + '</span>' +
+        '<span class="lfn">' + m.fn + '</span><span class="ldesc">' + m.desc + '</span>' +
+        '<span class="lstars" aria-label="' + d.stars[n] + ' dari 3 bintang">' + foot + '</span></a>';
+    });
+    $('levels').innerHTML = h;
+    var go = $('heroGo');
+    if (nxt === null) {
+      $('heroTitle').textContent = 'Kamu Ilmuwan Eksponen!';
+      $('heroText').textContent = 'Semua bintang sudah terkumpul. Hebat sekali! Mau main lagi level favoritmu?';
+      go.textContent = 'Main level 1 lagi'; go.setAttribute('href', '#level-1');
+    } else {
+      $('heroTitle').textContent = t === 0 ? 'Halo lagi!' : 'Ayo lanjut, ' + K.rank(t) + '!';
+      $('heroText').textContent = 'Berikutnya: ' + META[nxt].name + '. ' + META[nxt].desc;
+      go.textContent = 'Lanjut ke Level ' + (nxt === 6 ? 5 : nxt); go.setAttribute('href', hrefOf(nxt));
+    }
+    var nextRank = t >= 15 ? 15 : t >= 10 ? 15 : t >= 5 ? 10 : 5;
+    $('rankbar').innerHTML = '<div class="rk"><span>Gelarmu: <b>' + K.rank(t) + '</b></span><span>' + t + '/15 bintang</span></div><div class="track"><i style="width:' + Math.round(t / 15 * 100) + '%"></i></div>' +
+      (t < 15 ? '<div class="rk" style="font-weight:700"><span>' + (nextRank - t) + ' bintang lagi untuk gelar berikutnya</span></div>' : '');
+  }
+  function drawHub() {
+    if (!HUB.W) return;
+    var f = function (b) { return function (t) { return Math.pow(b, t); }; };
+    var def = [[2, PINK, '2'], [1.5, '#E59A00', '1,5'], [1, '#7A869E', '1'], [0.5, SKY, '½'], [1 / 3, GRAPE, '⅓']];
+    drawChart(HUB, {
+      xmin: -2, xmax: 3, ymin: 0, ymax: 8, xticks: range(-2, 3), yticks: [0, 2, 4, 6, 8], xlabel: 'x', ylabel: 'y = bˣ',
+      curves: def.map(function (d) { return { fn: f(d[0]), from: -2, to: 3, color: d[1], width: 4, halo: true }; }),
+      points: [{ x: 0, y: 1, label: '(0, 1)', color: SUN }],
+      legend: def.map(function (d) { return { color: d[1], label: 'b = ' + d[2] }; })
+    });
+  }
+  HUB.onsize = drawHub;
+
+  /* ---------- bantuan: cerita level, kamus ---------- */
+  function showIntro(n) {
+    var I = INTRO[n], m = META[n];
+    var html = '<div class="mhead"><span class="mascot" data-mood="happy" aria-hidden="true"></span><div><p class="mk">Level ' + n + '</p><h3>' + m.name + '</h3></div></div>' +
+      '<p class="mstory">' + I.story + '</p><h4>Cara main</h4><ol class="msteps">' + I.steps.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ol>' +
+      '<h4>Kata baru</h4><dl class="mwords">' + I.words.map(function (w) { return '<div><dt>' + w[0] + '</dt><dd>' + w[1] + '</dd></div>'; }).join('') + '</dl>' +
+      '<div class="mact"><button class="btn" id="mGo" type="button" style="--bg: var(--pink)" data-autofocus>Siap, mulai!</button></div>';
+    K.openModal(html, { onClose: function () { K.save.data.seen[n] = true; K.save.commit(); } });
+    $('mGo').onclick = K.closeModal;
+  }
+  function showKamus() {
+    var html = '<div class="mhead"><span class="mascot" data-mood="think" aria-hidden="true"></span><div><p class="mk">Kamus Bip</p><h3>Kata-kata penting</h3></div></div><dl class="mwords">' +
+      GLOSS.map(function (w) { return '<div><dt>' + w[0] + '</dt><dd>' + w[1] + '</dd></div>'; }).join('') + '</dl>' +
+      '<div class="mact"><button class="btn" id="mGo" type="button" style="--bg: var(--sun)" data-autofocus>Tutup</button></div>';
+    K.openModal(html, { cls: 'wide' });
+    $('mGo').onclick = K.closeModal;
+  }
+
+  /* ---------- kuis ---------- */
+  var quiz = null;
+  function qName(n) { return 'Tantangan: ' + META[n].name; }
+  function startQuiz(n) {
+    quiz = { n: n, i: 0, score: 0 };
+    stopLevel(); setView('quizView');
+    $('sub').textContent = 'Jawab dengan teliti. Tiap jawaban benar memberi satu bintang.';
+    $('qTitle').textContent = qName(n);
+    $('qcard').className = 'qcard';
+    renderQ();
+  }
+  function renderQ() {
+    var qs = Q[quiz.n], q = qs[quiz.i], card = $('qcard');
+    $('qProg').textContent = 'Soal ' + (quiz.i + 1) + ' dari ' + qs.length;
+    K.mascot('qMascot', 'think');
+    var opts = K.shuffle(q.o.map(function (t, i) { return { t: t, ok: i === q.a }; }));
+    card.innerHTML = '<p class="qtext">' + q.q + '</p><div class="opts">' + opts.map(function (o, i) { return '<button class="opt" type="button" data-i="' + i + '">' + o.t + '</button>'; }).join('') + '</div>' +
+      '<div class="qbar"><button class="btn small" id="qHint" type="button" style="--bg: var(--sun)">Petunjuk</button><p class="qhint" id="qHintText" hidden>' + q.h + '</p></div><div class="qfb" id="qfb" aria-live="polite"></div>';
+    $('qHint').onclick = function () { $('qHintText').hidden = false; this.hidden = true; };
+    var answered = false, btns = card.querySelectorAll('.opt');
+    Array.prototype.forEach.call(btns, function (b) {
+      b.addEventListener('click', function () {
+        if (answered) return; answered = true;
+        var o = opts[+b.getAttribute('data-i')];
+        Array.prototype.forEach.call(btns, function (bb, i) { bb.disabled = true; if (opts[i].ok) bb.classList.add('good'); });
+        if (!o.ok) b.classList.add('bad'); else quiz.score++;
+        if (o.ok) K.sound.ok(); else K.sound.bad();
+        K.mascot('qMascot', o.ok ? 'happy' : 'sad');
+        var last = quiz.i === qs.length - 1;
+        $('qfb').innerHTML = '<p><b>' + (o.ok ? 'Benar! Keren!' : 'Belum tepat, tidak apa-apa.') + '</b> ' + q.e + '</p><button class="btn" id="qNext" type="button" style="--bg: var(--sun)">' + (last ? 'Lihat hasil' : 'Lanjut') + '</button>';
+        $('qNext').focus();
+        $('qNext').onclick = function () { if (last) renderResult(); else { quiz.i++; renderQ(); } };
+      });
+    });
+  }
+  function renderResult() {
+    var n = quiz.n, s = quiz.score, before = K.total();
+    saveStars(n, s);
+    var msg = s === 3 ? 'Sempurna! Kamu menguasai ini.' : s === 2 ? 'Bagus! Tinggal sedikit lagi untuk bintang penuh.' : s === 1 ? 'Lumayan! Mainkan lagi dan perhatikan grafiknya, lalu coba lagi.' : 'Tidak apa-apa, belajar itu pakai proses. Mainkan lagi dan coba kuisnya sekali lagi.';
+    K.mascot('qMascot', s >= 2 ? 'happy' : 'think');
+    $('qProg').textContent = 'Selesai';
+    var card = $('qcard');
+    card.className = 'qcard qres';
+    card.innerHTML = '<div class="lvstars">' + K.stars(s) + '</div><h3>' + s + ' dari ' + Q[n].length + ' benar</h3><p>' + msg + '</p>' +
+      '<div class="sumbox"><h4>Yang sudah kamu pelajari</h4><ul>' + SUM[n].map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul></div>' +
+      '<div class="qacts"><button class="btn" id="qAgain" type="button" style="--bg: var(--grape)">Ulangi kuis</button>' +
+      '<button class="btn" id="qLevel" type="button">Main level ini lagi</button>' +
+      (n !== 6 ? '<button class="btn" id="qNextLv" type="button" style="--bg: var(--pink)">Level berikutnya</button>' : '') +
+      '<button class="btn" id="qMap" type="button" style="--bg: var(--sun)">Ke peta</button></div>';
+    $('qAgain').onclick = function () { startQuiz(n); };
+    $('qLevel').onclick = function () { openLevel(n); };
+    $('qMap').onclick = function () { goHash(''); };
+    if ($('qNextLv')) $('qNextLv').onclick = function () { goHash('level-' + (n === 4 ? 6 : n + 1)); };
+    if (s === 3) { K.sound.win(); K.confetti(130); } else if (s >= 2) K.sound.ok();
+    if (before < 15 && K.total() >= 15) setTimeout(showBadge, 900);
+  }
+  function showBadge() {
+    K.sound.win(); K.confetti(200);
+    K.openModal('<div class="mhead"><span class="mascot big bob" data-mood="happy" aria-hidden="true"></span><div><p class="mk">Selamat!</p><h3>Kamu sekarang Ilmuwan Eksponen!</h3></div></div>' +
+      '<p class="mstory">Semua 15 bintang sudah terkumpul. Kamu paham pertumbuhan, peluruhan, bunga majemuk, dan cara membaca a dan b dari grafik. Hebat sekali!</p>' +
+      '<div class="mact"><button class="btn" id="mGo" type="button" style="--bg: var(--sun)" data-autofocus>Terima kasih, Bip!</button></div>');
+    $('mGo').onclick = K.closeModal;
+  }
+  $('quizBack').addEventListener('click', function () {
+    if (!quiz) { goHash(''); return; }
+    openLevel(quiz.n);
+  });
+
+  /* ---------- navigasi ---------- */
+  var VIEWS = ['hub', 'lvl1', 'lvlx', 'quizView'];
+  function setView(v) {
+    VIEWS.forEach(function (id) { $(id).hidden = id !== v; });
+    var el = $(v); el.classList.remove('enter'); void el.offsetWidth; el.classList.add('enter');
+    window.scrollTo(0, 0);
+  }
+  function stopLevel() { window.Lab1.leave(); cur = null; floaters = []; C.hx = null; }
+  function goHash(h) { if (location.hash.replace('#', '') === h) route(); else location.hash = h; }
+  function openHub() {
+    stopLevel(); setView('hub'); renderHub();
+    $('sub').textContent = 'Belajar eksponen sambil bermain. Pilih stasiun lab dan mulai!';
+    HUB.resize(); drawHub();
+  }
+  function openLevel(n) {
+    stopLevel();
+    var m = META[n];
+    $('sub').textContent = m.name + ' · ' + plain(m.fn);
+    if (n === 1) {
+      setView('lvl1'); $('lvStars1').innerHTML = K.stars(K.save.data.stars[1]); window.Lab1.enter();
+    } else {
+      var L = LEVELS[n];
+      setView('lvlx');
+      $('lvTitle').textContent = 'Level ' + (n === 6 ? 5 : n) + ' · ' + m.name;
+      $('lvSub').textContent = m.desc;
+      $('lvStars').innerHTML = K.stars(K.save.data.stars[n]);
+      $('panels').className = 'panels' + (L.noScene ? '' : ' two');
+      $('sceneStage').hidden = !!L.noScene;
+      $('chartcap').textContent = 'Sentuh grafik untuk membaca nilainya. Kamu juga bisa melihat ramalan ke depan.';
+      $('cvScene').setAttribute('aria-label', L.aria[0]); $('cvChart').setAttribute('aria-label', L.aria[1]);
+      $('lvControls').innerHTML = L.controls;
+      var q = $('bQuiz'); if (q) q.onclick = function () { startQuiz(n); };
+      $('bReset').onclick = function () { L.reset(); };
+      floaters = []; C.hx = null;
+      S.resize(); C.resize();
+      cur = L; L.init();
+    }
+    if (!K.save.data.seen[n]) showIntro(n);
+  }
+  function route() {
+    var h = location.hash.replace('#', ''), mm = /^level-(\d)$/.exec(h);
+    if (mm && [1, 2, 3, 4, 6].indexOf(+mm[1]) !== -1) openLevel(+mm[1]);
+    else openHub();
+  }
+  window.addEventListener('hashchange', route);
+  Array.prototype.forEach.call(document.querySelectorAll('[data-back]'), function (b) {
+    b.addEventListener('click', function () { goHash(''); });
+  });
+  $('help1').addEventListener('click', function () { showIntro(1); });
+  $('helpX').addEventListener('click', function () { if (cur) showIntro(cur.id); });
+
+  /* membaca grafik dengan sentuhan atau kursor */
+  function hover(e) {
+    var r = C.cv.getBoundingClientRect(); C.hx = e.clientX - r.left;
+    if (cur && !cur.probed) { cur.probed = true; cur.refresh(); }
+  }
+  C.cv.addEventListener('pointermove', hover);
+  C.cv.addEventListener('pointerdown', function (e) { hover(e); pop(420); });
+  C.cv.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') C.hx = null; });
+
+  /* ---------- tombol atas ---------- */
+  function renderToggles() {
+    $('btnPredict').textContent = 'Tebak dulu: ' + (K.save.data.predict ? 'nyala' : 'mati');
+    $('btnPredict').setAttribute('aria-pressed', String(K.save.data.predict));
+    $('btnSound').textContent = 'Suara: ' + (K.sound.on ? 'nyala' : 'mati');
+    $('btnSound').setAttribute('aria-pressed', String(K.sound.on));
+  }
+  $('btnPredict').addEventListener('click', function () { K.save.data.predict = !K.save.data.predict; K.save.commit(); renderToggles(); });
+  $('btnSound').addEventListener('click', function () { K.sound.on = !K.sound.on; renderToggles(); });
+  $('btnKamus').addEventListener('click', showKamus);
+
+  /* ---------- misi Level 1 ---------- */
+  K.onL1 = function () {
+    var s = window.Lab1.state();
+    K.renderMission($('mission1'), [
+      { t: 'Belah sampai menit ke-4', done: s.x >= 4 }, { t: 'Susun jadi grafik', done: s.graphDone },
+      { t: 'Sentuh kolom grafik', bonus: true, done: s.probed }, { t: 'Jawab kuis', done: done(1) }
+    ]);
+  };
+
+  /* ---------- loop ---------- */
+  function drawFloaters(c) {
+    var ctx = c.ctx;
+    ctx.save(); ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round';
+    floaters.forEach(function (f) {
+      ctx.globalAlpha = Math.min(1, f.life * 1.5);
+      var sz = Math.round(Math.min(c.W, c.H) * .11);
+      ctx.font = '800 ' + sz + 'px ' + DISPLAY;
+      ctx.lineWidth = 6; ctx.strokeStyle = INK; ctx.strokeText(f.txt, c.W / 2, f.y * c.H);
+      ctx.fillStyle = '#FFE07A'; ctx.fillText(f.txt, c.W / 2, f.y * c.H);
+    });
+    ctx.restore();
+  }
+  function loop(now) {
+    var dt = Math.min(.05, (now - lastT) / 1000); lastT = now;
+    if (cur) {
+      cur.update(dt, now);
+      if (!cur.noScene && S.W) {
+        var ctx = S.ctx; ctx.clearRect(0, 0, S.W, S.H); ctx.fillStyle = BENCH; ctx.fillRect(0, 0, S.W, S.H);
+        cur.scene(S, now); drawFloaters(S);
+      }
+      if (C.W) drawChart(C, cur.chart());
+      for (var i = floaters.length - 1; i >= 0; i--) { floaters[i].y -= dt * .1; floaters[i].life -= dt * .9; if (floaters[i].life <= 0) floaters.splice(i, 1); }
+    }
+    requestAnimationFrame(loop);
+  }
+
+  window.Game = { quiz: startQuiz };
+  K.renderMascots();
+  renderTotal(); renderToggles();
+  route();
+  requestAnimationFrame(loop);
+})();
+</script>
+
+</body></html>
